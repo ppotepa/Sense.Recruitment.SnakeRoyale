@@ -14,33 +14,34 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         {
             LoggingService = loggingService;
             Engine = engine;
-            
         }
 
         public void Initialize()
         {
+            Console.CursorVisible = false;
             Engine.TickCompleted += Render;
             Initialized = true;
         }
 
         private void RenderObject(GameObject @object)
         {
-            Console.SetCursorPosition(@object.Position.X, @object.Position.Y);
+            char charToRender = ' ';
             switch (@object.ObjectTypeName)
             {
-                case "Apple": Console.Write("a");break;
-                case "Snake": Console.Write("x");break;
-            };
-            
+                case "Apple": charToRender = 'a'; break;
+                case "Snake": charToRender = 'x'; break;
+            }
+            Console.SetCursorPosition(@object.Position.X, @object.Position.Y);
+            Console.Write(charToRender);
         }
 
         public void Render()
         {
+            Console.WriteLine();
+            List<GameObject> allObjects = Engine.GameObjects.Values.ToList();
             if (Initialized)
             {
-                Console.Clear();
-                List<GameObject> allObjects = Engine.GameObjects.Values.ToList();
-                allObjects.ForEach(RenderObject);
+                allObjects.AsParallel().ForAll(RenderObject);
             }
             else
             {

@@ -8,5 +8,11 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleLoggingSe
         {
             Console.WriteLine(message);
         }
+
+        public void LogMessageAt(string message, int X, int Y)
+        {
+            Console.SetCursorPosition(X, Y);
+            Console.WriteLine(message);
+        }
     }
 }

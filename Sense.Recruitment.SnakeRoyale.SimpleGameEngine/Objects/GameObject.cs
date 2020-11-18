@@ -10,8 +10,10 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private static readonly Dictionary<string, int> CountByName = new Dictionary<string,int>();
         public static int GetObjectsCount() => CountByName.Sum(key => key.Value);
         public static int GetCountByName(string objectTypeName) => CountByName.ContainsKey(objectTypeName) ? CountByName[objectTypeName] : 0;
-       
-        public static GameObject Create(string objectName,  Vector2D position, Vector2D velocity, bool playable, bool isSolid, string bitmapName, double roration, double scale, string objectTypeName)
+        
+        public static GameObject Create(string objectName, Vector2D position, Vector2D velocity, bool playable,
+                                        bool isSolid, string bitmapName, double roration, double scale,
+                                        string objectTypeName)
         {
             if (!CountByName.ContainsKey(objectTypeName))
             {
@@ -26,21 +28,20 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
                 BitmapName = bitmapName ?? "Unnamed",
                 Position = position,
                 Velocity = velocity,
-                Roration = roration,
+                Rotation = roration,
                 Scale = scale,
                 ObjectTypeName = objectTypeName ?? "Unnamed"
             };
         }
 
         public GameObject() { }
-
         public bool Playable { get; set; }
         public string ObjectName { get; set; }
         public bool IsSolid { get; set; }
         public string BitmapName { get; set; }
         public Vector2D Position { get; set; }
         public Vector2D Velocity { get; set; }
-        public double Roration { get; set; }
+        public double Rotation { get; set; }
         public double Scale { get; set; }
         public string ObjectTypeName { get; set; }
         public readonly string HashCode = RandomTools.CreateHashCode(10);

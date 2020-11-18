@@ -84,6 +84,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="snake.stages.json" />
+    <None Include="snake.objects.json" />
+    <None Include="snake.assets.json" />
     <None Include="snake.config.json" />
   </ItemGroup>
   <ItemGroup>

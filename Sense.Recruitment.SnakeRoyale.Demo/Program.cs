@@ -15,12 +15,14 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
 {
     static class Program
     {
-        private const string userInput = "moveplayer x:20 y:30";
+        #region properties
+        private const string userInput = "createobject x:20 y:30 predefinedTypeName:apple";
         private static readonly IContainer container = GetContainer();
         private static readonly ICommandResolver<string> stringResolver = container.Resolve<ICommandResolver<string>>();
         private static readonly ILoggingService loggingService = container.Resolve<ILoggingService>();
         private static readonly SimpleGameEngine engine = container.Resolve<SimpleGameEngine>();
         private static readonly IRenderer renderer = container.Resolve<IRenderer>();
+        #endregion properties
 
         private static IContainer GetContainer()
         {
@@ -32,12 +34,13 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
 
             return builder.Build();
         }
-        private static void CommandTestingLoop()
+        private static void CommandTest()
         {
             ResolvedCommandType commandResolved = stringResolver.ResolveCommand(userInput);
             IEnumerable<Parameter> parameters = commandResolved
                 .Parameters
-                .Select(parameter => new NamedParameter(parameter.Name, parameter.Value));                
+                .Select(parameter => new NamedParameter(parameter.Name, parameter.Value))
+                .ToArray();
 
             var movePlayerCommandParameters
                 = container.ResolveNamed<CommandParameters>(commandResolved.ParametersType.Name, parameters);
@@ -49,17 +52,18 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
             };
 
             Command command = (Command)container.Resolve(commandResolved.CommandType, injectParams);
-            command.Execute();
-            Thread.Sleep(100);
+            //command.Execute();
+            //Thread.Sleep(100);
         }
        
         public static void Main(string[] args)
         {
             renderer.Initialize();
             engine.Run();
+
             while (engine.IsRunning)
             {
-                DiagnosticUtilities.MeasureExecutionTime(CommandTestingLoop, loggingService, true);
+                //DiagnosticUtilities.MeasureExecutionTime(CommandTestingLoop, loggingService, true);
             }
             Console.WriteLine(RandomTools.CreateHashCode(20));
         }

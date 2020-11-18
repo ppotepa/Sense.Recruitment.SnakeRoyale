@@ -7,7 +7,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class AddSnakes : GameLogic
     {
-        private const int SnakeLimit = 1;
+        private const int SnakeLimit = 2;
         public AddSnakes(ILoggingService loggingService, IGameEngineConfig config) : base(loggingService, config)
         {
 
@@ -24,8 +24,8 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     playable: false,
                     isSolid: false,
                     bitmapName: null,
-                    position: new Vector2D(x: 10, y: 10),
-                    velocity: new Vector2D(x: 0, y: 0),
+                    position: new Vector2D(x: currentSnakeCount * 2, y: currentSnakeCount * 2),
+                    velocity: new Vector2D(x: 1, y: 0),
                     roration: 0,
                     scale: 1,
                     objectTypeName: "Snake"

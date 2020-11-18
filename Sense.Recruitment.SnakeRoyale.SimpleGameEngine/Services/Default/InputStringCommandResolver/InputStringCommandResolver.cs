@@ -10,7 +10,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
     {
         private readonly Type[] availableCommands;
         private readonly Type[] availableParameters;
-        private Dictionary<string, (Type CommandType, Type ParametersType, ParameterInfo[] ConstructorParams)> router ;
+        private Dictionary<string, (Type CommandType, Type ParametersType, ParameterInfo[] ConstructorParams)> router;
+        private bool CompareConstrucorName(ParameterInfo param, string @string)
+            => string.Equals(param.Name, @string, StringComparison.InvariantCultureIgnoreCase);
 
         public InputStringCommandResolver(Type[] availableCommands, Type[] availableParameters)
         {
@@ -18,9 +20,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
             this.availableParameters = availableParameters;
         }
 
-        public Dictionary<string, (Type CommandType, Type ParametersType, ParameterInfo[] ConstructorParams)> Router 
+        public Dictionary<string, (Type CommandType, Type ParametersType, ParameterInfo[] ConstructorParams)> Router
         {
-            get 
+            get
             {
                 if (router == null)
                 {
@@ -37,12 +39,13 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
                 availableCommands
                 .ToDictionary(c => c.Name.Replace("Command", string.Empty).ToLower(), c =>
                 {
-                    var Command = availableCommands.First(av => av.Name.StartsWith(c.Name.Replace("Command", "")));  
+                    var Command = availableCommands.First(av => av.Name.StartsWith(c.Name.Replace("Command", "")));
                     var Params = availableParameters.First(av => av.Name.StartsWith(c.Name.Replace("Parameters", "")));
                     var ConstructorParams = availableParameters.GetType().GetConstructors().First().GetParameters();
                     return (Command, Params, ConstructorParams);
                 });
         }
+
 
         public ResolvedCommandType ResolveCommand(string input)
         {
@@ -54,28 +57,36 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
 
             Type commandType = Router[commandName].CommandType;
             Type parametersType = Router[commandName].ParametersType;
-            ParameterInfo[] constructorParams = Router[commandName].ConstructorParams;
 
-            IEnumerable<(string Name, object Value)> parameters = commandInputSplit
-            .Skip(1)
-            .Take(commandInputSplit.Length - 1)
-            .Select((param, index) =>
+            ParameterInfo[] constructorParams = Router[commandName].ParametersType
+                .GetConstructors()
+                .First()
+                .GetParameters();
+
+            if (constructorParams.Length != commandInputSplit.Length - 1)
+            {
+                string paramNames = string.Join(",", constructorParams.Select(p => $"[{p.Name}]"));
+                throw new InvalidOperationException($"Invalid amount of arguments given. Expected : {paramNames}");
+            }
+
+            Func<string, int, (string Name, object Value)> ExtractParameters = (param, index) =>
             {
                 object valueConverted = default;
                 string[] paramSplit = param.Split(Separator);
                 try
                 {
-                    valueConverted = Convert.ChangeType(paramSplit[1], constructorParams[0].ParameterType);
+                    Type targetConstructorType = constructorParams.FirstOrDefault(p => CompareConstrucorName(p, paramSplit[0])).ParameterType;
+                    valueConverted = Convert.ChangeType(paramSplit[1], targetConstructorType);
                 }
                 catch (NotSupportedException)
                 {
-                    var exceptionParameters = new string[]
+                    string[] exceptionParameters = new string[]
                     {
                         paramSplit[0],
                         paramSplit[1],
                         constructorParams[index].ParameterType.Name
                     };
-                    var message = string.Format(NotFoundExceptionMessage, exceptionParameters);
+                    string message = string.Format(NotFoundExceptionMessage, exceptionParameters);
                     throw new NotSupportedException(message);
                 }
                 return
@@ -83,7 +94,12 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
                     Name: paramSplit[0],
                     Value: valueConverted
                 );
-            });
+            };
+
+            IEnumerable<(string Name, object Value)> parameters = commandInputSplit
+            .Skip(1)
+            .Take(commandInputSplit.Length - 1)
+            .Select(ExtractParameters);
 
             return new ResolvedCommandType
             {
