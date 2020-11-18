@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Sense.Recruitment.SnakeRoyale.Engine</AssemblyName>
+    <RootNamespace>Sense.Recruitment.SnakeRoyale.Engine</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Default\ConsoleRenderer\" />
+  </ItemGroup>
+
+</Project>

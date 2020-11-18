@@ -1,0 +1,7 @@
+﻿{
+  "stage": {
+    "size": 32,  
+    "initialSpeed": 5,
+    "maxPlayers": 1
+  }
+}
