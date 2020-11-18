@@ -17,7 +17,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
             if (currentAppleCount < AppleLimit)
             {
                 var currentAppleID = "Apple" + currentAppleCount;
-                LoggingService.LogMessage("Adding an Apple " + currentAppleID);
+                //LoggingService.LogMessage("Adding an Apple " + currentAppleID);
                 GameObject apple = GameObject.Create
                 (
                     objectName: currentAppleID,

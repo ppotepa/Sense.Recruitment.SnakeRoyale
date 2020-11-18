@@ -6,8 +6,4 @@
     <RootNamespace>Sense.Recruitment.SnakeRoyale.Engine</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Default\ConsoleRenderer\" />
-  </ItemGroup>
-
 </Project>

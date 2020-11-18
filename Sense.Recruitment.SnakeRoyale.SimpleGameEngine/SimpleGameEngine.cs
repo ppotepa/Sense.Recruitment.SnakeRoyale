@@ -15,9 +15,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly IGameEngineConfig Config;
         private readonly ILoggingService LoggingService;
         private readonly List<GameLogic> Behaviours;
-        private static readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
-        public delegate void TickCompleted();
-        public event TickCompleted StartRendering;
+        public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
+        public delegate void OnTickCompleted();
+        public event OnTickCompleted TickCompleted;
       
         public SimpleGameEngine(IGameEngineConfig config, ILoggingService loggingService, IEnumerable<GameLogic> gameLogic)
         {
@@ -34,6 +34,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
                     behaviour.Apply(this);
                 });
                 Thread.Sleep(500);
+                TickCompleted?.Invoke();
             }
         }
 

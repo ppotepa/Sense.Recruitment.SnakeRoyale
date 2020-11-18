@@ -17,8 +17,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
             int currentSnakeCount = GameObject.GetCountByName("Snake");
             if (currentSnakeCount < SnakeLimit)
             {
-                var currentAppleID = "Snake";
-                LoggingService.LogMessage("Adding an Apple " + currentAppleID);
+                var currentAppleID = "PlayerSnake";
                 GameObject snake = GameObject.Create
                 (
                     objectName: currentAppleID,

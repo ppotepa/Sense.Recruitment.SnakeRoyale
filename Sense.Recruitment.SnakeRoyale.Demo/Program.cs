@@ -20,6 +20,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
         private static readonly ICommandResolver<string> stringResolver = container.Resolve<ICommandResolver<string>>();
         private static readonly ILoggingService loggingService = container.Resolve<ILoggingService>();
         private static readonly SimpleGameEngine engine = container.Resolve<SimpleGameEngine>();
+        private static readonly IRenderer renderer = container.Resolve<IRenderer>();
 
         private static IContainer GetContainer()
         {
@@ -54,6 +55,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
        
         public static void Main(string[] args)
         {
+            renderer.Initialize();
             engine.Run();
             while (engine.IsRunning)
             {
