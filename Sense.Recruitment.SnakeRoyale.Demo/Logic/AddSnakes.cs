@@ -8,13 +8,10 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     public class AddSnakes : GameLogic
     {
         private const int SnakeLimit = 2;
-        public AddSnakes(ILoggingService loggingService, IGameEngineConfig config) : base(loggingService, config)
-        {
-
-        }
+        public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void Apply(SimpleGameEngine engine)
         {
-            int currentSnakeCount = GameObject.GetCountByName("Snake");
+            int currentSnakeCount = GameObject.GetCountByObjectName("Snake");
             if (currentSnakeCount < SnakeLimit)
             {
                 var currentAppleID = "PlayerSnake";

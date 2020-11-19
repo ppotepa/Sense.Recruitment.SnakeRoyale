@@ -9,7 +9,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
     {
         private static readonly Dictionary<string, int> CountByName = new Dictionary<string,int>();
         public static int GetObjectsCount() => CountByName.Sum(key => key.Value);
-        public static int GetCountByName(string objectTypeName) => CountByName.ContainsKey(objectTypeName) ? CountByName[objectTypeName] : 0;
+        public static int GetCountByObjectName(string objectTypeName) => CountByName.ContainsKey(objectTypeName) ? CountByName[objectTypeName] : 0;
         
         public static GameObject Create(string objectName, Vector2D position, Vector2D velocity, bool playable,
                                         bool isSolid, string bitmapName, double roration, double scale,

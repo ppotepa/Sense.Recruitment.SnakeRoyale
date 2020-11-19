@@ -8,10 +8,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class MoveSnakes : GameLogic
     {
-        public MoveSnakes(ILoggingService loggingService, IGameEngineConfig config) : base(loggingService, config)
-        {
-        }
-
+        public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
         public override void Apply(SimpleGameEngine engine)
         {
             List<GameObject> snakes = engine.GetObjectsByName("Snake").ToList();

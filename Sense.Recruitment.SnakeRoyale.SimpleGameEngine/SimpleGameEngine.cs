@@ -16,7 +16,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly List<GameLogic> Behaviours;
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
         private int ticksCount = 0;
-      
+        private bool usingDefaultLogic = false;
+
         public SimpleGameEngine(IGameEngineConfig config, ILoggingService loggingService, IEnumerable<GameLogic> gameLogic)
         {
             LoggingService = loggingService;
@@ -27,15 +28,15 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         {
             Behaviours.ForEach(behaviour => behaviour.Apply(this));
             TickCompleted?.Invoke();
-            Console.Title = 
+            Console.Title =
                 $"Objects:{GameObjects.Values.Count} " +
-                $"Snakes:{GameObject.GetCountByName("Snake")} " +
-                $"Apples:{GameObject.GetCountByName("Apple")} " +
+                $"Snakes:{GameObject.GetCountByObjectName("Snake")} " +
+                $"Apples:{GameObject.GetCountByObjectName("Apple")} " +
                 $"Ticks:{ticksCount}";
-
             Thread.Sleep(100);
             ticksCount++;
         }
+       
 
         internal void MainLogic() 
         {
@@ -45,11 +46,11 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             }
         }
 
-        internal void runInternal()
+        internal void RunInternal()
         {
             ThreadPool.QueueUserWorkItem(o => MainLogic());
         }
 
-        public void Run() => new Task(runInternal).Start();
+        public void Run() => new Task(RunInternal).Start();
     }
 }

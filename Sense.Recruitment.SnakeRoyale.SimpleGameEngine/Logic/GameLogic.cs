@@ -6,7 +6,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Logic
     {
         protected readonly ILoggingService LoggingService;
         protected readonly IGameEngineConfig GameConfig;
-        protected GameLogic(ILoggingService loggingService, IGameEngineConfig config)
+        protected GameLogic(ILoggingService loggingService)
         {
             LoggingService = loggingService;
         }
