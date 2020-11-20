@@ -1,13 +1,12 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 {
     public class MovePlayerCommand : Command, ICommand
     {
-        public MovePlayerCommand(SimpleGameEngine engine, MovePlayerCommandParameters parameters) 
+        public MovePlayerCommand(SimpleGameEngine engine, MovePlayerCommandParameters parameters) : base(engine)
         {
             Engine = engine;
             Parameters = parameters;

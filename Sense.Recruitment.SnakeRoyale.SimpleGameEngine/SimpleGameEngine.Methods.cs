@@ -1,4 +1,5 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
+﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
+using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,5 +16,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public SimpleGameEngine LoadStages(string configFileName = "game.stages.json") { return this; }
         public SimpleGameEngine LoadConfiguration(string configFileName = "engine.config.json") { return this; }
         public SimpleGameEngine LoadDefaultObjects(string configFileName = "game.objects.json") { return this; }
+        public void AddCommandToQueue(ICommand command) => CommandQueue.Add(command);
     }
 }

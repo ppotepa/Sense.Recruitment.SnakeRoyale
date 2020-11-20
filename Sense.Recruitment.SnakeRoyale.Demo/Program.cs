@@ -2,19 +2,20 @@
 using Autofac.Core;
 using Sense.Recruitment.SnakeRoyale.Demo.Modules;
 using Sense.Recruitment.SnakeRoyale.Engine;
+using Sense.Recruitment.SnakeRoyale.Engine.Diagnostic;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using Sense.Recruitment.SnakeRoyale.Engine.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo
 {
     static class Program
     {
         #region properties
-        private const string userInput = "createobject x:20 y:30 predefinedTypeName:apple";
         private static readonly IContainer container = GetContainer();
         private static readonly ICommandResolver<string> stringResolver = container.Resolve<ICommandResolver<string>>();
         private static readonly ILoggingService loggingService = container.Resolve<ILoggingService>();
@@ -34,6 +35,8 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
         }
         private static void CommandRecieverTest()
         {
+            //string userInput = $"createobject x:{new Random().Next(1, 20)} y:{new Random().Next(1, 20)} predefinedTypeName:apple";
+            string userInput = $"writedupa message:KochamAdriankaCommand";
             ResolvedCommandType commandResolved = stringResolver.ResolveCommand(userInput);
             IEnumerable<Parameter> parameters = commandResolved
                 .Parameters
@@ -50,7 +53,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
             };
 
             Command command = (Command)container.Resolve(commandResolved.CommandType, injectParams);
-            command.Execute();
+            command.AddToQueue();
         }
 
         [STAThread]
@@ -64,12 +67,18 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
                 .UseDefaultLogic()
                 .Run();
 
+            var t = new Thread(() =>
+            {
+                CommandRecieverTest();
+                Thread.Sleep(100);
+            });
+
+            t.Start();
+
             while (engine.IsRunning)
             {
-                //DiagnosticUtilities.MeasureExecutionTime(CommandTestingLoop, loggingService, true);
+                Thread.Sleep(100);
             }
-
-            Console.WriteLine(RandomTools.CreateHashCode(20));
         }
     }
 }

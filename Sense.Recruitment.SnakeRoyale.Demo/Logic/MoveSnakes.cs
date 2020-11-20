@@ -1,7 +1,6 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
@@ -11,14 +10,18 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
         public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
         public override void Apply(SimpleGameEngine engine)
         {
-            List<GameObject> snakes = engine.GetObjectsByName("Snake").ToList();
-            snakes.ForEach(snake =>
+            
+            lock (engine.GameObjects)
             {
-                if (snake.Position.X + snake.Velocity.X < 119)
+                var snakes = engine.GetObjectsByName("Snake").ToList();
+                snakes.ForEach(snake =>
                 {
-                    snake.Position += snake.Velocity;
-                }
-            });
+                    if (snake.Position.X + snake.Velocity.X < 119)
+                    {
+                        snake.Position += snake.Velocity;
+                    }
+                });
+            }
         }
     }
 }

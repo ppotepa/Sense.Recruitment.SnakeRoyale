@@ -38,14 +38,17 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         public void Render()
         {
             Console.WriteLine();
-            List<GameObject> allObjects = Engine.GameObjects.Values.ToList();
-            if (Initialized)
+            lock (Engine.GameObjects)
             {
-                allObjects.AsParallel().ForAll(RenderObject);
-            }
-            else
-            {
-                throw new RendererNotInitializedException($"{nameof(ConsoleRenderer)} was not initialized.");
+                List<GameObject> allObjects = Engine.GameObjects.Values.ToList();
+                if (Initialized)
+                {
+                    allObjects.ForEach(RenderObject);
+                }
+                else
+                {
+                    throw new RendererNotInitializedException($"{nameof(ConsoleRenderer)} was not initialized.");
+                }
             }
         }
     }

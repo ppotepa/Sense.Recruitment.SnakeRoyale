@@ -46,7 +46,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
                 });
         }
 
-
         public ResolvedCommandType ResolveCommand(string input)
         {
             string[] commandInputSplit = input.Replace(DoubleSpace, string.Empty)

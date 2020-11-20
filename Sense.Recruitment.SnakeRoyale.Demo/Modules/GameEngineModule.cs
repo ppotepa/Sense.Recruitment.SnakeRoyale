@@ -17,18 +17,19 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Modules
             builder.RegisterType<ConsoleLoggingService>().SingleInstance().As<ILoggingService>();
             builder.RegisterType<ConsoleRenderer>().SingleInstance().As<IRenderer>();
             builder.RegisterType<GameEngineConfig>().SingleInstance().As<IGameEngineConfig>();
+
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
                   .Where(type => type.IsSubclassOf(typeof(GameLogic)))
                   .As<GameLogic>()
                   .InstancePerDependency();
 
             builder.RegisterType<SimpleGameEngine>()
-                .SingleInstance()
-                .WithParameters(new[] 
-                {
-                    new NamedParameter("config", config),
-                })
-                .AsSelf();
+            .SingleInstance()
+            .WithParameters(new[] 
+            {
+                new NamedParameter("config", config),
+            })
+            .AsSelf();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class AddSnakes : GameLogic
     {
-        private const int SnakeLimit = 2;
+        private const int SnakeLimit = 1;
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void Apply(SimpleGameEngine engine)
         {

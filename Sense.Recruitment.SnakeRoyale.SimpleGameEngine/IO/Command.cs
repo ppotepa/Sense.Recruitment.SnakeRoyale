@@ -7,7 +7,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.IO
 {
     public abstract partial class Command : ICommand
     {
+        readonly SimpleGameEngine Engine;
+        protected Command(SimpleGameEngine engine)
+        {
+            this.Engine = engine;   
+        }
         public abstract void Execute();
+        public void AddToQueue() => Engine.AddCommandToQueue(this);
+     
         private static Type[] _getTypes<TTargetType>() => 
                 AppDomain.CurrentDomain
                 .GetAssemblies()

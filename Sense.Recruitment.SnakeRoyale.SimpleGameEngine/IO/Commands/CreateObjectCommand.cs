@@ -7,7 +7,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 {
     public class CreateObjectCommand : Command, ICommand
     {
-        public CreateObjectCommand(SimpleGameEngine engine, CreateObjectCommandParameters parameters)
+        public CreateObjectCommand(SimpleGameEngine engine, CreateObjectCommandParameters parameters) : base(engine)
         {
             Parameters = parameters;
             Engine = engine;
@@ -24,13 +24,15 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
                 playable: false,
                 isSolid: false,
                 bitmapName: null,
-                position: new Vector2D(x: 25, y: 25),
-                velocity: new Vector2D(x: 1, y: 0),
+                position: new Vector2D(x: Parameters.X, y: Parameters.Y),
+                velocity: new Vector2D(x: 0, y: 0),
                 roration: 0,
                 scale: 1,
-                objectTypeName: "Snake"
+                objectTypeName: Parameters.PredefinedTypeName
             );
+           
             Engine.AddObject(@object);
+          
         }
 
         public override Task<string> ExecuteAsync()
