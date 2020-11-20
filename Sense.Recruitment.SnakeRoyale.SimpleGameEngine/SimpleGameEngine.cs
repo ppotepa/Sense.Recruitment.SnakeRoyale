@@ -54,7 +54,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             {
                 Tick();
                 new List<ICommand>(CommandQueue).ForEach(c => c.Execute());
-              
             }
         }
 

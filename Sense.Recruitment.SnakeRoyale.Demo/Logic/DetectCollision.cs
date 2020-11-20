@@ -28,7 +28,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 bool colided = engine.GetObjectAt(props.Head.Position).Any(obj => obj.IsSolid && obj != snake);
                 if (colided)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
+                    //Console.BackgroundColor = ConsoleColor.Red;
                 }
             });
         }

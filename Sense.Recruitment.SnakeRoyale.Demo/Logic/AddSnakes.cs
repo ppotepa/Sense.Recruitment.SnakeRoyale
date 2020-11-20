@@ -8,16 +8,14 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class AddSnakes : GameLogic
     {
-        private const int SnakeLimit = 1;
-        protected new int Priority = 100;
+        private const int SnakeLimit = 5;
+        protected new int Priority = 1;
 
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void ApplyTo(SimpleGameEngine engine)
         {
-            int currentSnakeCount = engine.GetCountByObjectName("Snake");
-            if (currentSnakeCount < SnakeLimit)
+            while (engine.GetCountByObjectName("Snake") < SnakeLimit)
             {
-                var currentAppleID = "PlayerSnake";
                 GameObject snake = GameObject.Create
                 (
                     objectName: "PlayerSnake",
