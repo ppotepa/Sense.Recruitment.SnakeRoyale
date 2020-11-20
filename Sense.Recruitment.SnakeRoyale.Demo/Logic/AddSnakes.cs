@@ -1,4 +1,5 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine;
+﻿using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
+using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
@@ -9,7 +10,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     {
         private const int SnakeLimit = 1;
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
-        public override void Apply(SimpleGameEngine engine)
+        public override void ApplyTo(SimpleGameEngine engine)
         {
             int currentSnakeCount = GameObject.GetCountByObjectName("Snake");
             if (currentSnakeCount < SnakeLimit)
@@ -17,7 +18,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 var currentAppleID = "PlayerSnake";
                 GameObject snake = GameObject.Create
                 (
-                    objectName: "PlayerSnake2",
+                    objectName: "PlayerSnake",
                     playable: false,
                     isSolid: false,
                     bitmapName: null,
@@ -27,6 +28,8 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     scale: 1,
                     objectTypeName: "Snake"
                 );
+
+                snake.ObjectProperties = new SnakeProperties(snake);
                 engine.AddObject(snake);
             }
         }

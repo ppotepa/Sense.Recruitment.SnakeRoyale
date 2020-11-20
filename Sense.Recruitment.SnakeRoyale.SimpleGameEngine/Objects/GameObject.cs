@@ -9,8 +9,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
     {
         private static readonly Dictionary<string, int> CountByName = new Dictionary<string,int>();
         public static int GetObjectsCount() => CountByName.Sum(key => key.Value);
-        public static int GetCountByObjectName(string objectTypeName) => CountByName.ContainsKey(objectTypeName) ? CountByName[objectTypeName] : 0;
-        
+        public static int GetCountByObjectName(string objectTypeName) => CountByName.ContainsKey(objectTypeName) ? CountByName[objectTypeName] : 0;      
+
         public static GameObject Create(string objectName, Vector2D position, Vector2D velocity, bool playable,
                                         bool isSolid, string bitmapName, double roration, double scale,
                                         string objectTypeName)
@@ -21,7 +21,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             }
             else CountByName[objectTypeName]++;
 
-            return new GameObject()
+            return  new GameObject()
             {
                 Playable = playable,
                 IsSolid = isSolid,
@@ -44,12 +44,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public double Rotation { get; set; }
         public double Scale { get; set; }
         public string ObjectTypeName { get; set; }
-        public readonly string HashCode = RandomTools.CreateHashCode(10);
 
-        public GameObject Copy() => Create(this.ObjectName, this.Position, this.Velocity, this.Playable, this.IsSolid, this.BitmapName, this.Rotation, this.Scale, this.ObjectTypeName);
+        public readonly string HashCode = RandomTools.CreateHashCode(10);
+        public ObjectProperties ObjectProperties { get; set; }
+
+        public GameObject Copy() => Create(ObjectName, Position, Velocity, Playable, IsSolid, BitmapName, Rotation, Scale, ObjectTypeName);
         public static bool Remove(GameObject @object)
         {
-            GameObject.CountByName[@object.ObjectTypeName]--;
+            CountByName[@object.ObjectTypeName]--;
             return true;
         }
     }

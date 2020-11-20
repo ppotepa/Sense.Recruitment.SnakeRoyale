@@ -65,17 +65,9 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
                 .UseDefaultLogic()
                 .Run();
 
-            var t = new Thread(() =>
-            {
-                //CommandRecieverTest();
-                Thread.Sleep(100);
-            });
-
-            t.Start();
-
             while (engine.IsRunning)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
             }
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface IGameLogic
     {
-        void Apply(SimpleGameEngine engine);
+        void ApplyTo(SimpleGameEngine engine);
     }
 }

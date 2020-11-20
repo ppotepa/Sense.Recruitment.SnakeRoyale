@@ -1,4 +1,5 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine;
+﻿using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
+using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
@@ -8,15 +9,15 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class SpawnApple : GameLogic
     {
-        private const int AppleLimit = 5;
+        private const int AppleLimit = 500;
         private static Random random = new Random();
         private static int currentAppleCount => GameObject.GetCountByObjectName("Apple");
         public SpawnApple(ILoggingService loggingService) : base(loggingService) { }
-        public override void Apply(SimpleGameEngine engine)
+        public override void ApplyTo(SimpleGameEngine engine)
         {
             while (currentAppleCount < AppleLimit)
             {
-                var currentAppleID = "Apple" + currentAppleCount;
+                string currentAppleID = "Apple" + currentAppleCount;
                 GameObject apple = GameObject.Create
                 (
                     objectName: currentAppleID,

@@ -75,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\AddSnakes.cs" />
+    <Compile Include="ObjectProperties\AppleProperties.cs" />
+    <Compile Include="ObjectProperties\SnakeProperties.cs" />
+    <Compile Include="Logic\PickUpAnApple.cs" />
     <Compile Include="Logic\SpawnApple.cs" />
     <Compile Include="Logic\MoveSnakes.cs" />
     <Compile Include="Modules\GameEngineModule.cs" />

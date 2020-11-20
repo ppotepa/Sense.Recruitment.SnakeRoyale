@@ -2,7 +2,10 @@
 {
     public partial class SimpleGameEngine
     {
-        public delegate void OnTickCompleted();
-        public event OnTickCompleted TickCompleted;
+        public delegate void TickCompleted();
+        public delegate void ObjectRemoved(GameObject @object);
+
+        public event TickCompleted OnTickCompleted;
+        public event ObjectRemoved OnObjectRemoved;
     }
 }

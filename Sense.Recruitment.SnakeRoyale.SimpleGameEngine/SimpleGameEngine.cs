@@ -3,6 +3,7 @@ using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly IGameEngineConfig Config;
         private readonly ILoggingService LoggingService;
         private readonly List<GameLogic> Behaviours;
+        private readonly Stopwatch stopWatch = new Stopwatch();
 
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
         private int ticksCount = 0;
@@ -30,14 +32,19 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
 
         internal void Tick()
         {
-            Behaviours.ForEach(behaviour => behaviour.Apply(this));
-            TickCompleted?.Invoke();
+            stopWatch.Start();
+                Behaviours.ForEach(behaviour => behaviour.ApplyTo(this));
+                OnTickCompleted?.Invoke();
+                Thread.Sleep(20);
+            stopWatch.Stop();
+
             Console.Title =
-                $"Objects:{GameObjects.Values.Count} " +
-                $"Snakes:{GameObject.GetCountByObjectName("Snake")} " +
-                $"Apples:{GameObject.GetCountByObjectName("Apple")} " +
-                $"Ticks:{ticksCount}";
-            Thread.Sleep(100);
+               $"Objects:{GameObjects.Values.Count} " +
+               $"Snakes:{GameObject.GetCountByObjectName("Snake")} " +
+               $"Apples:{GameObject.GetCountByObjectName("Apple")} " +
+               $"TickTime:{stopWatch.ElapsedMilliseconds}ms " + 
+               $"Ticks:{ticksCount}";
+            stopWatch.Reset();
             ticksCount++;
         }
 
