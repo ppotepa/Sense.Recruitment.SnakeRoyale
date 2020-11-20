@@ -17,11 +17,11 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 var currentAppleID = "PlayerSnake";
                 GameObject snake = GameObject.Create
                 (
-                    objectName: currentAppleID,
+                    objectName: "PlayerSnake2",
                     playable: false,
                     isSolid: false,
                     bitmapName: null,
-                    position: new Vector2D(x: currentSnakeCount * 2, y: currentSnakeCount * 2),
+                    position: new Vector2D(x: 40, y: 20),
                     velocity: new Vector2D(x: 1, y: 0),
                     roration: 0,
                     scale: 1,

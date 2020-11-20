@@ -10,6 +10,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
     {
         private readonly Type[] availableCommands;
         private readonly Type[] availableParameters;
+
         private Dictionary<string, (Type CommandType, Type ParametersType, ParameterInfo[] ConstructorParams)> router;
         private bool CompareConstrucorName(ParameterInfo param, string @string)
             => string.Equals(param.Name, @string, StringComparison.InvariantCultureIgnoreCase);
@@ -46,6 +47,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
                 });
         }
 
+        //InterCeptor AutoFac
+        //
         public ResolvedCommandType ResolveCommand(string input)
         {
             string[] commandInputSplit = input.Replace(DoubleSpace, string.Empty)

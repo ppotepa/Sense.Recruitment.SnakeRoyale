@@ -16,6 +16,15 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public SimpleGameEngine LoadStages(string configFileName = "game.stages.json") { return this; }
         public SimpleGameEngine LoadConfiguration(string configFileName = "engine.config.json") { return this; }
         public SimpleGameEngine LoadDefaultObjects(string configFileName = "game.objects.json") { return this; }
+        public bool RemoveObject(string objectHashCode) => GameObjects.Remove(objectHashCode);
         public void AddCommandToQueue(ICommand command) => CommandQueue.Add(command);
+        public void RemoveObjectAt(Vector2D position) 
+        {
+            var target = GameObjects.First(g => g.Value.Position == position).Value;
+            GameObjects.Remove(target.HashCode);
+        }
+
+        public bool RemoveObject(GameObject @object) => GameObjects.Remove(@object.HashCode) && GameObject.Remove(@object);
+        
     }
 }

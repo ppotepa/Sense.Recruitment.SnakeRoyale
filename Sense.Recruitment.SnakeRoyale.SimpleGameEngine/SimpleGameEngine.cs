@@ -15,6 +15,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly IGameEngineConfig Config;
         private readonly ILoggingService LoggingService;
         private readonly List<GameLogic> Behaviours;
+
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
         private int ticksCount = 0;
         private bool usingDefaultLogic = false;

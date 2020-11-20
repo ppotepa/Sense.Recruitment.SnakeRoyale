@@ -46,5 +46,11 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public string ObjectTypeName { get; set; }
         public readonly string HashCode = RandomTools.CreateHashCode(10);
 
+        public GameObject Copy() => Create(this.ObjectName, this.Position, this.Velocity, this.Playable, this.IsSolid, this.BitmapName, this.Rotation, this.Scale, this.ObjectTypeName);
+        public static bool Remove(GameObject @object)
+        {
+            GameObject.CountByName[@object.ObjectTypeName]--;
+            return true;
+        }
     }
 }

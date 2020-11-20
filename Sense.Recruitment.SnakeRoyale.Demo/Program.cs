@@ -2,10 +2,8 @@
 using Autofac.Core;
 using Sense.Recruitment.SnakeRoyale.Demo.Modules;
 using Sense.Recruitment.SnakeRoyale.Engine;
-using Sense.Recruitment.SnakeRoyale.Engine.Diagnostic;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
-using Sense.Recruitment.SnakeRoyale.Engine.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +34,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
         private static void CommandRecieverTest()
         {
             //string userInput = $"createobject x:{new Random().Next(1, 20)} y:{new Random().Next(1, 20)} predefinedTypeName:apple";
-            string userInput = $"writedupa message:KochamAdriankaCommand";
+            string userInput = $"test message:KochamAdriankaCommand";
             ResolvedCommandType commandResolved = stringResolver.ResolveCommand(userInput);
             IEnumerable<Parameter> parameters = commandResolved
                 .Parameters
@@ -69,7 +67,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo
 
             var t = new Thread(() =>
             {
-                CommandRecieverTest();
+                //CommandRecieverTest();
                 Thread.Sleep(100);
             });
 
