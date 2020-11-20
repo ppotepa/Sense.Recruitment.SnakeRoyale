@@ -9,6 +9,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Logic
 
         protected int ExecutionLimit = 0;
         protected int ExecutionTimes = 0;
+        public int Priority = 0;
 
         protected GameLogic(ILoggingService loggingService)
         {

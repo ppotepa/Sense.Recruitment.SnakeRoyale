@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\AddSnakes.cs" />
+    <Compile Include="Logic\DetectCollision.cs" />
     <Compile Include="ObjectProperties\AppleProperties.cs" />
     <Compile Include="ObjectProperties\SnakeProperties.cs" />
     <Compile Include="Logic\PickUpAnApple.cs" />

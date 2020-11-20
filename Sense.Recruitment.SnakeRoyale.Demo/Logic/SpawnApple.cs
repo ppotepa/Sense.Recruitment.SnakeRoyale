@@ -11,16 +11,14 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     {
         private const int AppleLimit = 500;
         private static Random random = new Random();
-        private static int currentAppleCount => GameObject.GetCountByObjectName("Apple");
         public SpawnApple(ILoggingService loggingService) : base(loggingService) { }
         public override void ApplyTo(SimpleGameEngine engine)
         {
-            while (currentAppleCount < AppleLimit)
+            while (engine.GetCountByObjectName("Apple") < AppleLimit)
             {
-                string currentAppleID = "Apple" + currentAppleCount;
                 GameObject apple = GameObject.Create
                 (
-                    objectName: currentAppleID,
+                    objectName: "Test",
                     playable: false,
                     isSolid: false,
                     bitmapName: null,

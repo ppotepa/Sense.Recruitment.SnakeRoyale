@@ -27,7 +27,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         {
             LoggingService = loggingService;
             Config = config;
-            Behaviours = gameLogic.ToList();
+            Behaviours = gameLogic.OrderBy(behaviour => behaviour.Priority).ToList();
         }
 
         internal void Tick()
@@ -40,8 +40,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
 
             Console.Title =
                $"Objects:{GameObjects.Values.Count} " +
-               $"Snakes:{GameObject.GetCountByObjectName("Snake")} " +
-               $"Apples:{GameObject.GetCountByObjectName("Apple")} " +
+               $"Snakes:{GetCountByObjectName("Snake")} " +
+               $"Apples:{GetCountByObjectName("Apple")} " +
                $"TickTime:{stopWatch.ElapsedMilliseconds}ms " + 
                $"Ticks:{ticksCount}";
             stopWatch.Reset();
@@ -53,17 +53,12 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             while (IsRunning)
             {
                 Tick();
-                List<ICommand> copy = new List<ICommand>(CommandQueue);
-                copy.ForEach(c => c.Execute());
-                copy.Clear();
+                new List<ICommand>(CommandQueue).ForEach(c => c.Execute());
+              
             }
         }
 
-        internal void RunInternal()
-        {
-            ThreadPool.QueueUserWorkItem(o => MainLogic());
-        }
-
+        internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => MainLogic());
         public void Run() => new Task(RunInternal).Start();
     }
 }

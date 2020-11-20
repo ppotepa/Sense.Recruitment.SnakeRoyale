@@ -25,10 +25,6 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
         private static bool SnakesInitialized { get; set; } = false;
         private static List<GameObject> Snakes { get; set; } = new List<GameObject>();
         private static List<GameObject> Apples { get; set; }  = new List<GameObject>();
-
-        public delegate void ApplePickedUp(EventArgs ApplePickedUpEventArgs);
-        public event ApplePickedUp OnApplePickedUp;
-
         public override void ApplyTo(SimpleGameEngine engine)
         {
             if (!SnakesInitialized)

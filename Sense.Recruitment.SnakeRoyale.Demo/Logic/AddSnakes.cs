@@ -9,10 +9,12 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     public class AddSnakes : GameLogic
     {
         private const int SnakeLimit = 1;
+        protected new int Priority = 100;
+
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void ApplyTo(SimpleGameEngine engine)
         {
-            int currentSnakeCount = GameObject.GetCountByObjectName("Snake");
+            int currentSnakeCount = engine.GetCountByObjectName("Snake");
             if (currentSnakeCount < SnakeLimit)
             {
                 var currentAppleID = "PlayerSnake";
@@ -20,7 +22,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 (
                     objectName: "PlayerSnake",
                     playable: false,
-                    isSolid: false,
+                    isSolid: true,
                     bitmapName: null,
                     position: new Vector2D(x: 40, y: 20),
                     velocity: new Vector2D(x: 1, y: 0),

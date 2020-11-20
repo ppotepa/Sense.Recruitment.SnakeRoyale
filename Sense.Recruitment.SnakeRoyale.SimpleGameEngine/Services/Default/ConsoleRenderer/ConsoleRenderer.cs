@@ -35,8 +35,21 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         {
             if (@object.Position.X > 0 && @object.Position.Y > 0)
             {
-                Console.SetCursorPosition(@object.Position.X, @object.Position.Y);
-                Console.Write(TypeNamesCharacters[@object.ObjectTypeName]);
+                try
+                {
+                    Console.SetCursorPosition(@object.Position.X, @object.Position.Y);
+                }
+                catch (Exception)
+                {
+
+                }
+                finally 
+                {
+                    if (@object.ObjectTypeName == "Snake") Console.ForegroundColor = ConsoleColor.Blue;
+                    else Console.ForegroundColor = ConsoleColor.Cyan;
+
+                    Console.Write(TypeNamesCharacters[@object.ObjectTypeName]);
+                }
             }
         }
 

@@ -18,6 +18,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public SimpleGameEngine LoadStages(string configFileName = "game.stages.json") { return this; }
         public SimpleGameEngine LoadConfiguration(string configFileName = "engine.config.json") { return this; }
         public SimpleGameEngine LoadDefaultObjects(string configFileName = "game.objects.json") { return this; }
+        public int GetCountByObjectName(string objectName) => GameObjects.Where(e => e.Value.ObjectTypeName == objectName).Count();
+       
         public void AddCommandToQueue(ICommand command) => CommandQueue.Add(command);
         public void RemoveObjectAt(Vector2D position, GameObject @object) 
         {
