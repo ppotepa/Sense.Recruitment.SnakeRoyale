@@ -5,7 +5,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.IO
     public interface ICommand
     {
         void Execute();
-        void AddToQueue();
+        void Publish();
         Task<string> ExecuteAsync();
     }
 

@@ -1,5 +1,6 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
+using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using System;
 using System.Threading.Tasks;
 
@@ -7,14 +8,12 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 {
     public class CreateObjectCommand : Command, ICommand
     {
-        public CreateObjectCommand(SimpleGameEngine engine, CreateObjectCommandParameters parameters) : base(engine)
+        public CreateObjectCommand(SimpleGameServer server, CreateObjectCommandParameters parameters) : base(server)
         {
             Parameters = parameters;
-            Engine = engine;
         }
 
         private readonly CreateObjectCommandParameters Parameters;
-        private readonly SimpleGameEngine Engine;
 
         public override void Execute()
         {
@@ -31,8 +30,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
                 objectTypeName: Parameters.PredefinedTypeName
             );
            
-            Engine.AddObject(@object);
-          
+            Server.AddObject(@object);
         }
 
         public override Task<string> ExecuteAsync()

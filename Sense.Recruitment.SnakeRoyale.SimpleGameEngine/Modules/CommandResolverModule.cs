@@ -3,7 +3,7 @@ using Autofac.Core;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 
-namespace Sense.Recruitment.SnakeRoyale.Demo.Modules
+namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
 {
     public class CommandResolverModule : Autofac.Module
     {

@@ -2,19 +2,21 @@
 using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
+using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
+using System;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
-    public class AddSnakes : GameLogic
+    public class AddSnakes : GameLogicBehaviour
     {
         private const int SnakeLimit = 5;
         protected new int Priority = 1;
-
+        private static Random random = new Random();
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
-        public override void ApplyTo(SimpleGameEngine engine)
+        public override void ApplyTo(SimpleGameServer server)
         {
-            while (engine.GetCountByObjectName("Snake") < SnakeLimit)
+            while (server.GetCountByObjectName("Snake") < SnakeLimit)
             {
                 GameObject snake = GameObject.Create
                 (
@@ -22,7 +24,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     playable: false,
                     isSolid: true,
                     bitmapName: null,
-                    position: new Vector2D(x: 40, y: 20),
+                    position: new Vector2D(x: random.Next(0, 60), y: random.Next(0, 60)),
                     velocity: new Vector2D(x: 1, y: 0),
                     roration: 0,
                     scale: 1,
@@ -30,7 +32,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 );
 
                 snake.ObjectProperties = new SnakeProperties(snake);
-                engine.AddObject(snake);
+                server.AddObject(snake);
             }
         }
     }

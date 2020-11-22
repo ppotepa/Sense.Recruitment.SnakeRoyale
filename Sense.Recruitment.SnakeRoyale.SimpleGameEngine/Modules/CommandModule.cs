@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using System;
-using System.Linq;
 
-namespace Sense.Recruitment.SnakeRoyale.Demo.Modules
+namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
 {
     public class CommandModule : Autofac.Module
     {

@@ -40,15 +40,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
                 availableCommands
                 .ToDictionary(c => c.Name.Replace("Command", string.Empty).ToLower(), c =>
                 {
-                    var Command = availableCommands.First(av => av.Name.StartsWith(c.Name.Replace("Command", "")));
-                    var Params = availableParameters.First(av => av.Name.StartsWith(c.Name.Replace("Parameters", "")));
+                    var Command = availableCommands.First(av => av.Name.StartsWith(c.Name.Replace("Command", string.Empty)));
+                    var Params = availableParameters.First(av => av.Name.StartsWith(c.Name.Replace("Parameters", String.Empty)));
                     var ConstructorParams = availableParameters.GetType().GetConstructors().First().GetParameters();
                     return (Command, Params, ConstructorParams);
                 });
         }
 
-        //InterCeptor AutoFac
-        //
+        //InterCeptor AutoFac        
         public ResolvedCommandType ResolveCommand(string input)
         {
             string[] commandInputSplit = input.Replace(DoubleSpace, string.Empty)

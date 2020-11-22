@@ -76,14 +76,11 @@
   <ItemGroup>
     <Compile Include="Logic\AddSnakes.cs" />
     <Compile Include="Logic\DetectCollision.cs" />
-    <Compile Include="ObjectProperties\AppleProperties.cs" />
-    <Compile Include="ObjectProperties\SnakeProperties.cs" />
+    <Compile Include="Logic\MoveSnakes.cs" />
     <Compile Include="Logic\PickUpAnApple.cs" />
     <Compile Include="Logic\SpawnApple.cs" />
-    <Compile Include="Logic\MoveSnakes.cs" />
-    <Compile Include="Modules\GameEngineModule.cs" />
-    <Compile Include="Modules\CommandResolverModule.cs" />
-    <Compile Include="Modules\CommandModule.cs" />
+    <Compile Include="ObjectProperties\AppleProperties.cs" />
+    <Compile Include="ObjectProperties\SnakeProperties.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

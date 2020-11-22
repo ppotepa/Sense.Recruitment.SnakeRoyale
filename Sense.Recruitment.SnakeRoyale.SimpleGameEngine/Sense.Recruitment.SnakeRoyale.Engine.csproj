@@ -6,4 +6,9 @@
     <RootNamespace>Sense.Recruitment.SnakeRoyale.Engine</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
+  </ItemGroup>
+
 </Project>

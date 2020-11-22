@@ -3,6 +3,7 @@
     public interface IRenderer
     {
         void Render();
+        void RenderSingleObject(GameObject @object);
         void Initialize();
     }
 }

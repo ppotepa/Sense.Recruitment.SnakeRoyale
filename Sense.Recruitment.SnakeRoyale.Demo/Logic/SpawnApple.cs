@@ -1,20 +1,20 @@
-﻿using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
-using Sense.Recruitment.SnakeRoyale.Engine;
+﻿using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
+using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
-    public class SpawnApple : GameLogic
+    public class SpawnApple : GameLogicBehaviour
     {
-        private const int AppleLimit = 50;
+        private const int AppleLimit = 100;
         private static Random random = new Random();
         public SpawnApple(ILoggingService loggingService) : base(loggingService) { }
-        public override void ApplyTo(SimpleGameEngine engine)
+        public override void ApplyTo(SimpleGameServer server)
         {
-            while (engine.GetCountByObjectName("Apple") < AppleLimit)
+            while (server.GetCountByObjectName("Apple") < AppleLimit)
             {
                 GameObject apple = GameObject.Create
                 (
@@ -28,7 +28,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     scale: 1,
                     objectTypeName: "Apple"
                 );
-                engine.AddObject(apple);
+                server.AddObject(apple);
             }
         }
     }

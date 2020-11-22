@@ -1,7 +1,9 @@
-﻿namespace Sense.Recruitment.SnakeRoyale.Engine.Logic
+﻿using Sense.Recruitment.SnakeRoyale.Engine.Server;
+
+namespace Sense.Recruitment.SnakeRoyale.Engine.Logic
 {
     public interface IGameLogic
     {
-        void ApplyTo(SimpleGameEngine engine);
+        void ApplyTo(SimpleGameServer server);
     }
 }
