@@ -16,15 +16,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly IGameEngineConfig Config;
         private readonly ILoggingService LoggingService;
         private readonly SimpleGameServer Server;
-      
-        private readonly Stopwatch StopWatch = new Stopwatch();        
-       
+        private readonly Stopwatch StopWatch = new Stopwatch();
+
         public SimpleGameEngine(IGameEngineConfig config, ILoggingService loggingService, SimpleGameServer server)
         {
             LoggingService = loggingService;
             Config = config;
             Server = server;
-        }        
+        }
 
         internal void MainLogic()
         {
@@ -37,7 +36,11 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         }
 
         internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => MainLogic());
-        public void Run() => new Task(RunInternal).Start();
+        public void Run()
+        {
+            new Task(RunInternal).Start();
+            IsRunning = true;
+        } 
 
         public SimpleGameEngine Initialize()
         {

@@ -29,7 +29,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         }
 
         internal bool UseDefaultLogic { get; set; } =true;
-        internal void AddToQueue(ICommand command) => CommandQueue.Push(command);
+        internal void AddToQueue(ICommand command) => CommandStack.Push(command);
        
     }
 }

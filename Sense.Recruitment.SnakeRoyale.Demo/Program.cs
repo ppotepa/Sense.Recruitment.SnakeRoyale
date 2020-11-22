@@ -1,7 +1,11 @@
 ﻿using Autofac;
 using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Modules;
+using Sense.Recruitment.SnakeRoyale.Engine.Server;
+using Sense.Recruitment.SnakeRoyale.Engine.Services;
+using Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer;
 using System;
+using System.Threading;
 
 namespace Sense.Recruitment.SnakeRoyale.Client
 {
@@ -17,7 +21,13 @@ namespace Sense.Recruitment.SnakeRoyale.Client
                 .RegisterModule(new GameEngineModule());
 
             IContainer container = builder.Build();
+
+            SimpleGameServer server = container.Resolve<SimpleGameServer>();
             SimpleGameEngine engine = container.Resolve<SimpleGameEngine>();
+            ConsoleRenderer renderer = (ConsoleRenderer) container.Resolve<IRenderer>();
+
+            server.OnTickCompleted += renderer.Render;
+            renderer.Initialize();
 
             engine
                 .Initialize()
@@ -29,7 +39,7 @@ namespace Sense.Recruitment.SnakeRoyale.Client
 
             while (engine.IsRunning)
             {
-              //DoSomeExtraLogic
+                Thread.Sleep(100);
             }
         }
     }

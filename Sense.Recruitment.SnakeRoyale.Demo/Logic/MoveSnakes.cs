@@ -14,7 +14,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     {
         public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
 
-        private static Dictionary<string, GameObject> Snakes { get; set; } = new Dictionary<string, GameObject>();
+        private static Dictionary<string, GameObject> Snakes { get; set; }
         private static List<SnakeProperties> SnakesList { get; set; }
 
         private static readonly Vector2D EAST = new Vector2D(1, 0);

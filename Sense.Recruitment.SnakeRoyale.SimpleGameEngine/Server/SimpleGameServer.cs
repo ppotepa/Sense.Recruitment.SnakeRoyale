@@ -10,7 +10,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
     public partial class SimpleGameServer
     {
         public bool IsRunning { get; private set; }
-        private readonly Stack<ICommand> CommandQueue = new Stack<ICommand>();
+        private readonly Stack<ICommand> CommandStack = new Stack<ICommand>();
         private readonly Stopwatch StopWatch = new Stopwatch();
 
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
@@ -20,16 +20,22 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         public void Start()
         {
+         
             IsRunning = true;
             while (IsRunning)
             {
-                ServerTick();
-                OnTickCompleted?.Invoke();
+                ServerTick();               
             }
         }
         //Could actually be a nice Func?
-        internal void ServerTick() => Behaviours.ForEach(b => b.ApplyTo(this));
+        internal void ServerTick()
+        {
+            Behaviours.ForEach(b => b.ApplyTo(this));
+            OnTickCompleted?.Invoke();
+            Thread.Sleep(100);
+        }
+
         internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => Start());
-        public void AddCommandToQueue(ICommand command) => CommandQueue.Push(command);
+        public void AddCommandToQueue(ICommand command) => CommandStack.Push(command);
     }
 }

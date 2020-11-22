@@ -24,7 +24,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     playable: false,
                     isSolid: true,
                     bitmapName: null,
-                    position: new Vector2D(x: random.Next(0, 60), y: random.Next(0, 60)),
+                    position: new Vector2D(x: random.Next(0, 60), y: random.Next(0, 30)),
                     velocity: new Vector2D(x: 1, y: 0),
                     roration: 0,
                     scale: 1,

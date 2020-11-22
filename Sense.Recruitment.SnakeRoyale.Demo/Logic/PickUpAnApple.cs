@@ -28,7 +28,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
         private static List<GameObject> Apples { get; set; }  = new List<GameObject>();
         public override void ApplyTo(SimpleGameServer server)
         {
-            if (!SnakesInitialized)
+            if (SnakesInitialized is false)
             {
                 Snakes = server.GetObjectsByName("Snake").ToList();
                 SnakesInitialized = true;

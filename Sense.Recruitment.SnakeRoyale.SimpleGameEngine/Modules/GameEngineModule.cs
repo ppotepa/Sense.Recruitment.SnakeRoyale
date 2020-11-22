@@ -18,7 +18,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
             builder.RegisterType<ConsoleRenderer>().SingleInstance().As<IRenderer>();
             builder.RegisterType<GameEngineConfig>().SingleInstance().As<IGameEngineConfig>();
             builder.RegisterType<ConsoleLoggingService>().InstancePerDependency().As<ILoggingService>();
-            builder.RegisterType<SimpleGameServer>().InstancePerDependency().As<SimpleGameServer>();
+            builder.RegisterType<SimpleGameServer>().SingleInstance().As<SimpleGameServer>();
 
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
                   .Where(type => type.IsSubclassOf(typeof(GameLogicBehaviour)))

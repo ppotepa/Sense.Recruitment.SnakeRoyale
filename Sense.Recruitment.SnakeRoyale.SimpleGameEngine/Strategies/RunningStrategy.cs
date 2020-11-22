@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Strategies
 {
-    public class SinglePlayerRunningStrategy : RunningStrategy
+    
+    public abstract class RunningStrategy
     {
-        public SinglePlayerRunningStrategy(SimpleGameServer server, IEnumerable<GameLogicBehaviour> behavioues) : base(server, behavioues)
+        protected RunningStrategy(SimpleGameServer server, IEnumerable<GameLogicBehaviour> behavioues)
         {
 
         }
