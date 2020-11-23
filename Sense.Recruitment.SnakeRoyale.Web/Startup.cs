@@ -34,6 +34,8 @@ namespace Sense.Recruitment.SnakeRoyale.Web
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

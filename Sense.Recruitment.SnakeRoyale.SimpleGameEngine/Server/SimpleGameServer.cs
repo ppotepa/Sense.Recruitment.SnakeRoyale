@@ -24,7 +24,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         public void Start()
         {
-
             IsRunning = true;
             while (IsRunning)
             {

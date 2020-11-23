@@ -27,16 +27,20 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 
         private readonly Dictionary<Vector2D, Vector2D[]> AvailableDirections = new Dictionary<Vector2D, Vector2D[]>()
         {
-            { EAST, new[] { SOUTH, NORTH } },
-            { WEST,  new[] { SOUTH, NORTH } },
-            { SOUTH, new[] { WEST, EAST} },
-            { NORTH, new[] { WEST, EAST} },
+            { EAST,     new[] { SOUTH,  NORTH } },
+            { WEST,     new[] { SOUTH,  NORTH } },
+            { SOUTH,    new[] { WEST,   EAST} },
+            { NORTH,    new[] { WEST,   EAST} },
         };
 
         public override void ApplyTo(SimpleGameServer server)
         {
-            if (Snakes is null) 
-                Snakes = server.GetObjectsByName("Snake").ToDictionary(snake => snake.HashCode, snake => snake);
+            if (Snakes is null)
+            {
+                Snakes = server
+                    .GetObjectsByName("Snake")
+                    .ToDictionary(snake => snake.HashCode, snake => snake);
+            }
       
             Snakes.Values.ToList().ForEach(snake =>
             {

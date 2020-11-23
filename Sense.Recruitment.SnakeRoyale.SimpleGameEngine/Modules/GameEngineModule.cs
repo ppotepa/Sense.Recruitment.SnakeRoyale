@@ -1,11 +1,13 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
-using Sense.Recruitment.SnakeRoyale.Engine.Network;
+using Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleLoggingService;
 using Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer;
 using System;
+using System.Net;
 using WebSocketSharp.Server;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
@@ -32,11 +34,15 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
             builder.RegisterType<WebSocketServer>()
                 .SingleInstance()
                 .As<WebSocketServer>()
-                .WithParameter(new NamedParameter("url", "ws://snakeroyale.game"))
+                .WithParameters(new Parameter[] 
+                { 
+                    new NamedParameter("ipaddress", IPAddress.Parse("127.0.0.1")),
+                    new NamedParameter("port", 2137)
+                })
                 .OnActivating(args =>
                 {
                     WebSocketServer instance = args.Instance;
-                    instance.AddWebSocketService<ServerBehaviour>(@"/game");
+                    instance.AddWebSocketService<PlayerCommand>(@"/command");
                     instance.Start();
                 }); 
 

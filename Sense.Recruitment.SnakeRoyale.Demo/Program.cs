@@ -38,17 +38,16 @@ namespace Sense.Recruitment.SnakeRoyale.Client
                     new TypedParameter(type: movePlayerCommandParameters.GetType(), value:movePlayerCommandParameters),
             };
 
-            Command command = (Command)container.Resolve(commandResolved.CommandType, injectParams);
+            Command command = (Command) container.Resolve(commandResolved.CommandType, injectParams);
             command.Publish();
             Thread.Sleep(100);
         }
 
         [STAThread]
         public static void Main(string[] args)
-        {
+        {            
             //to be moved to engine
             ContainerBuilder builder = new ContainerBuilder();
-
             builder
                 .RegisterModule(new CommandModule())
                 .RegisterModule(new CommandResolverModule())
