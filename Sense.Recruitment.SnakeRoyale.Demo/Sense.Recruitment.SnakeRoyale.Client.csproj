@@ -88,7 +88,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="game.stages.json" />
-    <None Include="game.objects.json" />
+    <None Include="game.models.json" />
     <None Include="game.assets.json" />
     <None Include="game.config.json" />
   </ItemGroup>
@@ -100,6 +100,14 @@
       <Project>{FB393823-0399-4B7A-9C31-6F8BE99FC301}</Project>
       <Name>Sense.Recruitment.SnakeRoyale.Engine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\apple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\snake.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

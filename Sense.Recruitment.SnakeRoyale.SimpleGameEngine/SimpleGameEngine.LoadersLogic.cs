@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sense.Recruitment.SnakeRoyale.Engine
+﻿namespace Sense.Recruitment.SnakeRoyale.Engine
 {
     public partial class SimpleGameEngine
     {
@@ -26,6 +24,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         }
 
         public void UseDefaultLogic() => Server.UseDefaultLogic = true;
-       
+
+        public SimpleGameEngine Initialize() { return this; }
+        
     }
 }

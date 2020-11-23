@@ -15,7 +15,6 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic.Models
         }
 
         //ENCAPSULATES
-        public int Score { get => score; set => score = value; }
-        private int score = 0;
+        public int Score { get; set; } = 0;
     }
 }

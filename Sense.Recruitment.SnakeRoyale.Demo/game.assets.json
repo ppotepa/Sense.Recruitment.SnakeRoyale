@@ -1,16 +1,11 @@
 ﻿{
-  "objectTypes": [
+  "assets": [
     {
-      "objectTypeName": "apple",
-      "bitmapName": "apple.png",
-      "isSolid": false,
-      "isPlayable": false
+      "name": "apple.png",
+      "type": "bitmap"
     },
     {
-      "objectTypeName": "snake",
-      "bitmapName": "snake.png",
-      "isSolid": false,
-      "isPlayable": false
+      "name": "snake.png",
+      "type": "bitmap"
     }
-  ]
 }

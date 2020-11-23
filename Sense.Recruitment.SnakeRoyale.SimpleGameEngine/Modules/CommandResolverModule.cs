@@ -2,6 +2,7 @@
 using Autofac.Core;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
+using System;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
 {
@@ -9,8 +10,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var allAvailableCommands = Command.GetAvailableCommands();
-            var allAvailableParameters = Command.GetAvailableParameters();
+            Type[] allAvailableCommands = Command.GetAvailableCommands();
+            Type[] allAvailableParameters = Command.GetAvailableParameters();
 
             builder.RegisterType<InputStringCommandResolver>()
                 .SingleInstance()

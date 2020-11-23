@@ -24,14 +24,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Primitives
                    Y == other.Y;
         }
 
-        public override int GetHashCode()
-        {
-            int hashCode = 1861411795;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            return hashCode;
-        }
-
         public static Vector2D operator +(Vector2D a, Vector2D b) => new Vector2D(a.X + b.X, a.Y + b.Y);
         public static Vector2D operator -(Vector2D a, Vector2D b) => new Vector2D(a.X - b.X, a.Y - b.Y);
         public static bool operator ==(Vector2D a, Vector2D b) => a.X == b.X && a.Y == b.Y;

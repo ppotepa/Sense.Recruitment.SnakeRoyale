@@ -1,10 +1,12 @@
 ﻿using Autofac;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
+using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleLoggingService;
 using Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer;
 using System;
+using WebSocketSharp.Server;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
 {
@@ -14,12 +16,31 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
         {
             IGameEngineConfig config = new GameEngineConfig().LoadConfiguration("test");
             
-            builder.RegisterType<ConsoleLoggingService>().SingleInstance().As<ILoggingService>();
-            builder.RegisterType<ConsoleRenderer>().SingleInstance().As<IRenderer>();
-            builder.RegisterType<GameEngineConfig>().SingleInstance().As<IGameEngineConfig>();
-            builder.RegisterType<ConsoleLoggingService>().InstancePerDependency().As<ILoggingService>();
-            builder.RegisterType<SimpleGameServer>().SingleInstance().As<SimpleGameServer>();
+            builder.RegisterType<ConsoleLoggingService>()
+                .InstancePerLifetimeScope()
+                .As<ILoggingService>();
 
+            builder.RegisterType<ConsoleRenderer>()
+                .SingleInstance()
+                .As<IRenderer>();
+
+            builder
+                .RegisterType<GameEngineConfig>()
+                .SingleInstance()
+                .As<IGameEngineConfig>();
+
+            builder.RegisterType<WebSocketServer>()
+                .SingleInstance()
+                .As<WebSocketServer>()
+                .WithParameter(new NamedParameter("url", "ws://snakeroyale.game"))
+                .OnActivating(args =>
+                {
+                    WebSocketServer instance = args.Instance;
+                    instance.AddWebSocketService<ServerBehaviour>(@"/game");
+                    instance.Start();
+                }); 
+
+            builder.RegisterType<SimpleGameServer>().SingleInstance().As<SimpleGameServer>();
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
                   .Where(type => type.IsSubclassOf(typeof(GameLogicBehaviour)))
                   .As<GameLogicBehaviour>()

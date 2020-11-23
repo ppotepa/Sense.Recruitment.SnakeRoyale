@@ -1,7 +1,7 @@
 ﻿namespace Sense.Recruitment.SnakeRoyale.Engine.Loaders
 {
-    interface ILoader
+    interface ILoader<TOjectType>
     {
-        void Load();
+        
     }
 }

@@ -10,6 +10,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         public GameObject GetObject(string objectHash) => GameObjects[objectHash];
         public GameObject AddObject(GameObject gameObject) => GameObjects[gameObject.HashCode] = gameObject;
         public IEnumerable<GameObject> GetObjectsByName(string objectName) => GameObjects.Values.Where(obj => obj.ObjectTypeName == objectName);
+        internal GameObject GetObjectByTypeHashCode(string hashCode) => GameObjects.ContainsKey(hashCode) ? GameObjects[hashCode] : null;
+
+
         public TGameObjectType[] GetObjectsByType<TGameObjectType>() where TGameObjectType : GameObject
             => (TGameObjectType[])GameObjects.Values.Where(obj => obj.GetType() == typeof(TGameObjectType)).ToArray();
         public IEnumerable<GameObject> GetObjectAt(Vector2D position) => GameObjects.Values.Where(obj => obj.Position == position);

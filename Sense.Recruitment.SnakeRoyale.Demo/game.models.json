@@ -1,16 +1,14 @@
 ﻿{
-  "objectTypes": [
+  "models": [
     {
       "objectTypeName": "apple",
       "bitmapName": "apple.png",
-      "isSolid": false,
-      "isPlayable": false
+      "scale": 1
     },
     {
       "objectTypeName": "snake",
       "bitmapName": "snake.png",
-      "isSolid": false,
-      "isPlayable": false
+      "scale": 1
     }
   ]
 }

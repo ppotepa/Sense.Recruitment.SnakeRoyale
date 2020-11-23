@@ -20,7 +20,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
             {
                 GameObject snake = GameObject.Create
                 (
-                    objectName: "PlayerSnake",
+                    objectName: "SomeSnake",
                     playable: false,
                     isSolid: true,
                     bitmapName: null,

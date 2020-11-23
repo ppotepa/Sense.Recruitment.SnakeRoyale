@@ -8,7 +8,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
 {
     public partial class SimpleGameEngine
     {
-        private int ticksCount = 0;
         private bool IsUsingDefaultLogic { get; set; } = false;
         private bool IsEngineInitialized { get; set; } = false;
         public bool IsRunning { get; private set; } = true;
@@ -24,6 +23,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             Config = config;
             Server = server;
         }
+        public SimpleGameEngine() { }
 
         internal void MainLogic()
         {
@@ -41,11 +41,5 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             new Task(RunInternal).Start();
             IsRunning = true;
         } 
-
-        public SimpleGameEngine Initialize()
-        {
-            //throw new NotImplementedException();
-            return this;
-        }
     }
 }
