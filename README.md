@@ -1,10 +1,10 @@
 # Sense.Recruitment.SnakeRoyale
-Missing implementations : 
-  
-  Web.Client
-  AssetsLoaders
-  GraphicalRenderer
-  CommandHubs
+# Missing implementations  
+Web.Client,
+AssetLoaders
+GraphicalRenderer,
+CommandHubs,
+GameplayStrategies,
   
   
   
