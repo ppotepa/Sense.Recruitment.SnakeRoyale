@@ -8,7 +8,6 @@ import { Configuration } from "webpack";
 // plugins
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import CopyPlugin from "copy-webpack-plugin";
 
 module.exports = (env: { mode: "development" | "production" }) => {
     const developmentMode = env.mode === "development";
@@ -40,25 +39,26 @@ module.exports = (env: { mode: "development" | "production" }) => {
             splitChunks: {
                 chunks: "all",
             },
+
         },
 
         plugins: [
             new HtmlWebpackPlugin(),
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: "assets/**",
+            // new CopyPlugin({
+            //     patterns: [
+            //         {
+            //             from: "assets/**",
 
-                        // if there are nested subdirectories , keep the hierarchy
-                        transformPath(targetPath, absolutePath) {
-                            const assetsPath = path.resolve(__dirname, "assets");
-                            const endpPath = absolutePath.slice(assetsPath.length);
+            //             // if there are nested subdirectories , keep the hierarchy
+            //             transformPath(targetPath, absolutePath) {
+            //                 const assetsPath = path.resolve(__dirname, "assets");
+            //                 const endpPath = absolutePath.slice(assetsPath.length);
 
-                            return Promise.resolve(`assets/${endpPath}`);
-                        },
-                    },
-                ],
-            }),
+            //                 return Promise.resolve(`assets/${endpPath}`);
+            //             },
+            //         },
+            //     ],
+            // }),
         ],
     };
     const envConfig = require(path.resolve(__dirname, `./webpack.${env.mode}.ts`))(env);

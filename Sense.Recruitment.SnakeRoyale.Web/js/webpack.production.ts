@@ -41,14 +41,14 @@ module.exports = (env: { mode: "development" | "production" }) => {
         },
 
         output: {
-            path: path.resolve(__dirname, "dist"),
-            filename: "game.[hash].js",
-            chunkFilename: "game-library.[contenthash].js",
+            path: path.resolve(__dirname, "../wwwroot"),
+            filename: "index.js",
+            chunkFilename: "game-library.js",
         },
 
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "[name].[hash].css",
+                filename: "[name].css",
             }),
 
             new OptimizeCssAssetsPlugin({

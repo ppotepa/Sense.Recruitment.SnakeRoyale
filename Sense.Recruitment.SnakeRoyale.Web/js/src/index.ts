@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js";
-
 import "./style.css";
 
 const gameWidth = 800;
