@@ -1,5 +1,6 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
+using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,35 +15,52 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
         private readonly List<GameLogicBehaviour> Behaviours;
         private readonly WebSocketServer WebSocketServer;
-        public SimpleGameServer(IEnumerable<GameLogicBehaviour> behaviours, WebSocketServer webSocketServer)
+        private readonly ILoggingService LoggingService;
+        public SimpleGameServer(IEnumerable<GameLogicBehaviour> behaviours, WebSocketServer webSocketServer, ILoggingService loggingService)
         {
             Behaviours = behaviours.OrderBy(b => b.Priority).ToList();
             WebSocketServer = webSocketServer;
+            LoggingService = loggingService;
         }
 
         private int TicksCount = 0;
+        private void StartInternal() => ServerLogic();
+        public void Start() 
+        {
+            //LoggingService.LogMessage("[Server] Starting");
+            ThreadPool.QueueUserWorkItem(o => ServerLogic());
+        } 
 
-        public void Start()
+        private void ServerLogic()
         {
             IsRunning = true;
             while (IsRunning)
             {
                 ServerTick();
-                while (CommandStack.Count > 0)
-                {
-                    ICommand command = CommandStack.Pop();
-                    command.Execute();
-                }
+                ProcessCommands();
             }
+
             TicksCount++;
         }
 
         //Could actually be a nice Func?
         internal void ServerTick()
         {
-            Behaviours.ForEach(b => b.ApplyTo(this));
-            OnTickCompleted?.Invoke();
+            //LoggingService.LogMessage("[Server] Applying behaviours");
+            Behaviours.ForEach(b => b.ApplyTo(this));            
+            OnTickCompleted?.Invoke();  
             Thread.Sleep(100);
+        }
+
+        internal void ProcessCommands()
+        {
+           
+            while (CommandStack.Count > 0)
+            {
+                //LoggingService.LogMessage($"[Server] Processing Commands {CommandStack.Count}");
+                ICommand command = CommandStack.Pop();
+                command.Execute();
+            }
         }
 
         internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => Start());

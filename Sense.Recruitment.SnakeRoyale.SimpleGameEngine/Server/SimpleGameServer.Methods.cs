@@ -32,6 +32,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         internal bool UseDefaultLogic { get; set; } =true;
         internal void AddToQueue(ICommand command) => CommandStack.Push(command);
+        public bool IsWebSocketRunning => this.WebSocketServer.IsListening;
        
     }
 }

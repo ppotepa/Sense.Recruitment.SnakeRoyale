@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Core;
+using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
+using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
@@ -14,6 +16,12 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
 {
     public class GameEngineModule : Autofac.Module
     {
+        private readonly Func<ResolvedCommandType, Command> CommandFactory;
+        public GameEngineModule(Func<ResolvedCommandType, Command> commandFactory) 
+        {
+            CommandFactory = commandFactory;
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
             IGameEngineConfig config = new GameEngineConfig().LoadConfiguration("test");
@@ -31,34 +39,48 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
                 .SingleInstance()
                 .As<IGameEngineConfig>();
 
+            builder
+               .RegisterType<InternalWebSocketClient>()
+               .SingleInstance()
+               .AsSelf();
+
             builder.RegisterType<WebSocketServer>()
                 .SingleInstance()
                 .As<WebSocketServer>()
-                .WithParameters(new Parameter[] 
-                { 
-                    new NamedParameter("ipaddress", IPAddress.Parse("127.0.0.1")),
-                    new NamedParameter("port", 2137)
-                })
-                .OnActivating(args =>
+                .WithParameters(new Parameter[]
                 {
+                    new NamedParameter("address", IPAddress.Parse("127.0.0.1")),
+                    new NamedParameter("port", 2137),
+                })
+                .OnActivated(args =>
+                {
+                    Type[] allAvailableCommands = Command.GetAvailableCommands();
+                    Type[] allAvailableParameters = Command.GetAvailableParameters();
+
                     WebSocketServer instance = args.Instance;
-                    instance.AddWebSocketService<PlayerCommand>(@"/command");
+                    instance.AddWebSocketService<WebSocketCommandReceiver>("/command", (c) => 
+                    {
+                        c.UseResolver(new InputStringCommandResolver(allAvailableCommands, allAvailableParameters));
+                        c.UseFactory(CommandFactory);
+                        
+                    });
                     instance.Start();
-                }); 
+                });
 
             builder.RegisterType<SimpleGameServer>().SingleInstance().As<SimpleGameServer>();
-            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())  
                   .Where(type => type.IsSubclassOf(typeof(GameLogicBehaviour)))
                   .As<GameLogicBehaviour>()
                   .InstancePerDependency();
 
             builder.RegisterType<SimpleGameEngine>()
             .SingleInstance()
-            .WithParameters(new[] 
+            .WithParameters(new[]
             {
                 new NamedParameter("config", config),
             })
-            .AsSelf();
+            .AsSelf()
+            .OnActivated(engineBuilder => engineBuilder.Instance.Run());
         }
     }
 }

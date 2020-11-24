@@ -100,7 +100,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services
             IEnumerable<(string Name, object Value)> parameters = commandInputSplit
             .Skip(1)
             .Take(commandInputSplit.Length - 1)
-            .Select(ExtractParameters);
+            .Select(ExtractParameters)
+            .Reverse();
+            
 
             return new ResolvedCommandType
             {

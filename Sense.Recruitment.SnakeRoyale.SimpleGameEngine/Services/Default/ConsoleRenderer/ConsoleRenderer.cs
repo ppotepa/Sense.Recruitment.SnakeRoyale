@@ -27,7 +27,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         public void Initialize()
         {
             Console.CursorVisible = false;
-            Server.OnTickCompleted += Render;
+            //Server.OnTickCompleted += Render;
             Initialized = true;
             ResolveTypeNames();
         }

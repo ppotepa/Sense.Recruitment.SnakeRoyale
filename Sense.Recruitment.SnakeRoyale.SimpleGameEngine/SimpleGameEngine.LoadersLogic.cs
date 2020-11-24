@@ -24,8 +24,5 @@
         }
 
         public void UseDefaultLogic() => Server.UseDefaultLogic = true;
-
-        public SimpleGameEngine Initialize() { return this; }
-        
     }
 }
