@@ -10,9 +10,6 @@
     "dev": "npm run webpack-dev-server -- --env.mode development --watch",
     "test": "npx jest",
     "code-coverage": "jest --coverage",
-    "prettier": "npx prettier",
-    "prettier:format": "npm run prettier -- --write src/**/*.ts",
-    "prettier:check": "npm run prettier -- -c ./src/**/*.ts",
     "lint-check": "npx eslint ./src/**/*.ts",
     "code-style-check": "npm run lint-check && npm run prettier:check"
   },

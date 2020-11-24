@@ -6,28 +6,41 @@ var CommandSocketModule;
 (function (CommandSocketModule) {
     const webSocketCommandUrl = "ws://localhost:2137/command";
     let socket;
-    const generateUserHash = () => Math.random().toString(36).substring(2);
+    CommandSocketModule.generateUserHash = () => Math.random().toString(36).substring(2);
+    const currentConnextionHash = CommandSocketModule.generateUserHash();
+    function addServerTickHandler(handler) {
+        socket.onmessage = handler;
+    }
+    CommandSocketModule.addServerTickHandler = addServerTickHandler;
+    function sendKeyPressedMessage(keyPressed) {
+        switch (keyPressed) {
+            case 'w': socket.send(WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('moveplayer', 0, -32, currentConnextionHash));
+            case 's': socket.send(WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('moveplayer', 0, 32, currentConnextionHash));
+            case 'a': socket.send(WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('moveplayer', -32, 0, currentConnextionHash));
+            case 'd': socket.send(WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('moveplayer', 32, 0, currentConnextionHash));
+        }
+    }
+    CommandSocketModule.sendKeyPressedMessage = sendKeyPressedMessage;
     function start() {
         socket = new WebSocket(webSocketCommandUrl);
         socket.onopen = function (e) {
-            var command = WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('registerconnection', generateUserHash());
+            const command = WebSocketCommandFactory_1.WebSocketCommandFactory.generateCommandString('registerconnection', currentConnextionHash);
             socket.send(command);
         };
         socket.onmessage = function (event) {
-            alert(`[message] Data received from server: ${event.data}`);
+            let objects = JSON.parse(event.data);
+            return objects;
         };
         socket.onclose = function (event) {
             if (event.wasClean) {
-                alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
             }
             else {
-                // e.g. server process killed or network down
-                // event.code is usually 1006 in this case
-                alert('[close] Connection died');
+                console.log('[close] Connection died');
             }
         };
         socket.onerror = function (error) {
-            alert(`[error] ${error}`);
+            console.log(`[error] ${error}`);
         };
     }
     CommandSocketModule.start = start;

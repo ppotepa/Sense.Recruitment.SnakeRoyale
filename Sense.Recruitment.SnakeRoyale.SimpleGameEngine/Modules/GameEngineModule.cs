@@ -72,9 +72,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
                 .SingleInstance()
                 .As<SimpleGameServer>()
                 .OnActivated(a => a.Instance.AddHost(host));
-                
 
-            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())  
+
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
                   .Where(type => type.IsSubclassOf(typeof(GameLogicBehaviour)))
                   .As<GameLogicBehaviour>()
                   .InstancePerDependency();

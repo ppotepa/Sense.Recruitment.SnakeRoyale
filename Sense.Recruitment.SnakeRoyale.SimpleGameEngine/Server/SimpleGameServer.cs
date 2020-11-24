@@ -25,13 +25,13 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         public readonly ILoggingService LoggingService;
         public SimpleGameServer(IEnumerable<GameLogicBehaviour> behaviours, WebSocketServer webSocketServer, ILoggingService loggingService)
         {
-            Behaviours = behaviours.OrderBy(b => b.Priority).ToList();
+            Behaviours = behaviours.ToList();
             WebSocketServer = webSocketServer;
             LoggingService = loggingService;
         }
 
         private int TicksCount = 0;
-        private int TickInterval = 500;
+        public int TickInterval { get; private set; } = 500;
         private List<GameObject> CurrentTickRemovedObjects = new List<GameObject>();
 
         private void ServerLogic()
@@ -42,7 +42,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
                 ServerTick();
                 ProcessCommands();
 
-                var broadCastData = new ServerStateResponse()
+                string broadCastData = new ServerStateResponse()
                 {
                     GameObjects = GameObjects.Values,
                     RemovedObjects = CurrentTickRemovedObjects
@@ -74,7 +74,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
             while (CommandStack.Count > 0)
             {
                 ICommand command =  CommandStack.Pop();
-                LoggingService.LogMessage($"Executing command {command.GetType().Name} with Parameters");
+                LoggingService.LogMessage($"Executing command {command.GetType().Name}.");
                 command.Execute();
             }
         }

@@ -61,7 +61,6 @@ namespace Sense.Recruitment.SnakeRoyale.Client
             while (engine.IsRunning)
             {
                 Thread.Sleep(100);
-                //CommandTest();
             }
         }
     }

@@ -16,6 +16,7 @@ namespace Sense.Recruitment.SnakeRoyale.Web
             {
                 webBuilder.UseStartup<Startup>();
                 webBuilder.UseStaticWebAssets();
+              
             });
     }
 }

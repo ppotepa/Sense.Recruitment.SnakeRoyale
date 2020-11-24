@@ -8,15 +8,18 @@ using System;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
+    [LogicPriority(0)]
     public class SpawnApple : GameLogicBehaviour
     {
-        private const int AppleLimit = 250;
+        private const int AppleLimit = 50;
+        protected int Priority = 100;
         private static Random random = new Random();
         public SpawnApple(ILoggingService loggingService) : base(loggingService) { }
         public override void ApplyTo(SimpleGameServer server)
         {
             while (server.GetCountByObjectName("Apple") < AppleLimit)
             {
+                LoggingService.LogMessage("Spawning Apple(s).");
                 GameObject apple = GameObject.Create
                 (
                     objectName: "Test",

@@ -1,5 +1,4 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
-using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 using WebSocketSharp;

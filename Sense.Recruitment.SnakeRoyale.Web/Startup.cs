@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Sense.Recruitment.SnakeRoyale.Web
 {
@@ -34,7 +37,11 @@ namespace Sense.Recruitment.SnakeRoyale.Web
 
             app.UseAuthorization();
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
+
 
             app.UseEndpoints(endpoints =>
             {

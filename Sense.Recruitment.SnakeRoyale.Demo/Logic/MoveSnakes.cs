@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
+    [LogicPriority(3)]
     public class MoveSnakes : GameLogicBehaviour
     {
         public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }

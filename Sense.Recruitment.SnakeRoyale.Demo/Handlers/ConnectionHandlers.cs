@@ -17,7 +17,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Handlers
                 (
                     objectName: "SnakeHead",
                     playable: true,
-                    isSolid: false,
+                    isSolid: true,
                     bitmapName: "snake.png",
                     position: new Vector2D(x:random.Next(0, 30) * 32, y: random.Next(0, 30) * 32),
                     velocity: new Vector2D(x: 32, y: 0),

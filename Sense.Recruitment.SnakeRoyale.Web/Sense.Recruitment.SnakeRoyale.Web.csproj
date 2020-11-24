@@ -5,17 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="assets\apple.png" />
-    <None Remove="assets\snake.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="assets\apple.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\snake.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Remove="wwwroot\assets\apple.png" />
+    <None Remove="wwwroot\assets\snake.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Include="wwwroot\assets\obstacle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\assets\apple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\snake.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

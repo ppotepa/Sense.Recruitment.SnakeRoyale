@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
+    [LogicPriority(5)]
     public class DetectCollision : GameLogicBehaviour
     {
         public DetectCollision(ILoggingService loggingService) : base(loggingService) { }
@@ -16,24 +17,26 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
      
         public override void ApplyTo(SimpleGameServer server)
         {
-            if (!SnakesInitialized)
+           
+            Snakes = server
+                .GetObjectsByName("Snake")
+                .Where(@object => @object.ObjectName == "SnakeHead")
+                .ToList();
+
+            Snakes.ForEach(snake =>
             {
-                Snakes = server.GetObjectsByName("Snake").ToList();
-                SnakesInitialized = true;
-            }
-            
-            Snakes.ForEach(snake => 
-            {
-                SnakeProperties props = (SnakeProperties) snake.ObjectProperties;
+                SnakeProperties props = (SnakeProperties)snake.ObjectProperties;
                 bool colided = server.GetObjectAt(props.Head.Position).Any(obj => obj.IsSolid && obj != snake);
                 if (colided)
                 {
-                    ((SnakeProperties)snake.ObjectProperties).Tail
-                    .ToList()
-                    .ForEach(tailBit => server.RemoveObject(tailBit));
-                    server.RemoveObject(snake);
-                }
-            });
+                        LoggingService.LogMessage($"Snake {snake.Owner.ClientHashCode} colided with an object.");
+
+                        ((SnakeProperties)  snake.ObjectProperties).Tail
+                                                                .ToList()
+                                                                .ForEach(tailBit => server.RemoveObject(tailBit));
+                            server.RemoveObject(snake);
+                    }
+                });
         }
     }
 }

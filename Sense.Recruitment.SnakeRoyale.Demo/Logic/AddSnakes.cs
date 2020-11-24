@@ -8,11 +8,11 @@ using System;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
+    [LogicPriority(4)]
     public class AddSnakes : GameLogicBehaviour
     {
         private const int SnakeLimit = 0;
-        protected new int Priority = 1;
-        private static Random random = new Random();   
+        private Random random = new Random();   
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void ApplyTo(SimpleGameServer server)
         {

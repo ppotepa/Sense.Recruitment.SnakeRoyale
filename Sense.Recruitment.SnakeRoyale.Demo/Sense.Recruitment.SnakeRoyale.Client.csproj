@@ -82,6 +82,7 @@
     <Compile Include="Logic\DetectCollision.cs" />
     <Compile Include="Logic\MoveSnakes.cs" />
     <Compile Include="Logic\PickUpAnApple.cs" />
+    <Compile Include="Logic\SpawnObstacles.cs" />
     <Compile Include="Logic\SpawnApple.cs" />
     <Compile Include="ObjectProperties\AppleProperties.cs" />
     <Compile Include="ObjectProperties\SnakeProperties.cs" />

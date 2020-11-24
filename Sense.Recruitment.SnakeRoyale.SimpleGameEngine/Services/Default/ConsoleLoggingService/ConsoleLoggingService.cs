@@ -6,7 +6,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleLoggingSe
     {
         public void LogMessage(string message)
         {
-            Console.WriteLine($"[{DateTime.Now.ToShortTimeString()}] {message}");
+            Console.WriteLine($"[{DateTime.Now}] {message}");
         }
 
         public void LogMessageAt(string message, int X, int Y)

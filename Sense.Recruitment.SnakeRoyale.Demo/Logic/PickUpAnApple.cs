@@ -38,6 +38,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 {
                     if (apple.Position == properties.Head.Position) 
                     {
+                        LoggingService.LogMessage($"Player picked up an Apple.{snake.Owner.ClientHashCode}");
                         server.RemoveObject(apple);
                         properties.Length += 1;
                         properties.Score += 1;
