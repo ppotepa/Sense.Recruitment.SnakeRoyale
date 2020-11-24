@@ -13,14 +13,13 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     public class MoveSnakes : GameLogicBehaviour
     {
         public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
-        private static Dictionary<string, GameObject> Snakes { get; set; }
+        private static List<GameObject> Snakes { get; set; }
 
-        private static readonly Vector2D EAST = new Vector2D(1, 0);
-        private static readonly Vector2D WEST = new Vector2D(-1, 0);
-        private static readonly Vector2D NORTH = new Vector2D(0, -1);
-        private static readonly Vector2D SOUTH = new Vector2D(0, 1);
+        private static readonly Vector2D EAST = new Vector2D(32, 0);
+        private static readonly Vector2D WEST = new Vector2D(-32, 0);
+        private static readonly Vector2D NORTH = new Vector2D(0, -32);
+        private static readonly Vector2D SOUTH = new Vector2D(0, 32);
         private static readonly Vector2D NONE = new Vector2D(0, 0);
-
 
         private readonly Random random = new Random();
 
@@ -37,21 +36,18 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
         {
             Snakes = server
                     .GetObjectsByName("Snake")
-                    .ToDictionary(snake => snake.HashCode, snake => snake);
+                    .Where(@object => @object.ObjectName == "SnakeHead")
+                    .ToList();
 
-            Snakes.Values.ToList().ForEach(snake =>
+            Snakes.ForEach(snake =>
             {
-                if (snake.Playable)
-                {
-                    return;
-                }
+                server.LoggingService.LogMessage("Moving snake");
+                SnakeProperties snakeProperties = (SnakeProperties) snake.ObjectProperties;
 
-                SnakeProperties snakeProperties = (SnakeProperties)snake.ObjectProperties;
-
-                if (snakeProperties is null)
+                if (snakeProperties.Tail.Any())
                 {
-                    snakeProperties = new SnakeProperties(snake);
-                    snakeProperties.Head.Velocity = new Vector2D(1, 0);
+                    server.RemoveObject(snakeProperties.Tail.Last.Value);
+                    snakeProperties.Tail.RemoveLast();
                 }
 
                 while (snakeProperties.Tail.Count < snakeProperties.Length)
@@ -60,18 +56,16 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     snakeProperties.Tail.AddFirst(copy);
                     server.AddObject(copy);
                 }
-
-                server.RemoveObject(snakeProperties.Tail.Last.Value);
-
-                snakeProperties.Tail.RemoveLast();
-                //Vector2D newVelocity = new Vector2D(random.Next(-2, 2), random.Next(-2, 2));
-                //if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
-                //{
-                //    snakeProperties.Head.Velocity = newVelocity;
-                //}
+                if (!snake.Playable)
+                {
+                    Vector2D newVelocity = new Vector2D(random.Next(-1, 1) * 32, random.Next(-1, 1) * 32);
+                    if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
+                    {
+                        snakeProperties.Head.Velocity = newVelocity;
+                    }
+                }
 
                 snakeProperties.Head.Position += snakeProperties.Head.Velocity;
-
             });
         }
     }

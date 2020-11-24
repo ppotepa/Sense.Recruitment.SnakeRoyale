@@ -1,10 +1,11 @@
 import CommandSocketModule from "./modules/webSocket/CommandSocketModule"
+import { GameObject, ServerStateResponse } from "./interfaces/ServerStateResponse";
+import { SpriteGenerator } from "./world/SpriteGenerator";
 import * as PIXI from "pixi.js";
 import "./style.css";
-import { HashedGameObject } from "./interfaces/EngineInterfaces";
 
-const gameWidth = 1000;
-const gameHeight = 800;
+const gameWidth = 1920;
+const gameHeight = 1080;
 
 const app = new PIXI.Application({
     backgroundColor: 0xd3d3d3,
@@ -25,33 +26,40 @@ function resizeCanvas(): void {
         app.stage.scale.x = window.innerWidth / gameWidth;
         app.stage.scale.y = window.innerHeight / gameHeight;
     };
-
     resize();
-
     window.addEventListener("resize", resize);
 }
 
-function getObject(x: number, y: number, bitmapName: string): PIXI.Sprite {
-    const apple = new PIXI.Sprite(PIXI.Texture.from("assets/apple.png"));
-    apple.scale.set(1);
-    apple.x = x;
-    apple.y = y;
-    return apple;
-}
+const allObjects: { [Key: string]: PIXI.Sprite; } = {};
 
-var allObjects: { [Key: string]: PIXI.Sprite; } = {};
+const validateObjectExistence = (object: GameObject) => {
+    if (allObjects[object.HashCode] === undefined) {
+        const newObject = SpriteGenerator.getSprite(object.Position.X, object.Position.Y, object.BitmapName);
+        allObjects[object.HashCode] = newObject;
+        stage.addChild(newObject);
+    }
+    else {
+        allObjects[object.HashCode].position.x = object.Position.X;
+        allObjects[object.HashCode].position.y = object.Position.Y;
+    }
+};
+
+const removeObject = (object: GameObject) => {
+    stage.removeChild(allObjects[object.HashCode]);
+    delete allObjects[object.HashCode]
+    console.log(`removed object ${object.HashCode}`);
+};
+
 CommandSocketModule.start();
 CommandSocketModule.addServerTickHandler((event) => {
-    debugger;
-    let objects: HashedGameObject[] = <HashedGameObject[]>JSON.parse(event.data);
-    objects.forEach(object => {
-        if (allObjects[object.Key] === undefined) {
-            let newObject = getObject(object.Value.Position.X, object.Value.Position.Y, object.Value.ObjectTypeName);
-            stage.addChild(newObject);
-        }
-        else {
-            allObjects[object.Key].position.x = object.Value.Position.X;
-            allObjects[object.Key].position.y = object.Value.Position.Y;
-        }
-    });
+    let state: ServerStateResponse = <ServerStateResponse>JSON.parse(event.data);
+    state.RemovedObjects.forEach(removeObject);
+    state.GameObjects.forEach(validateObjectExistence);
 });
+
+document.onkeypress = (ev: KeyboardEvent) => {
+    console.log(ev);
+    CommandSocketModule.sendKeyPressedMessage(ev.key)
+}
+
+

@@ -2,7 +2,7 @@
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic.Models
 {
-    public class AppleProperties : GameObject
+    public class AppleProperties : ObjectProperties
     {
         public AppleProperties()
         {

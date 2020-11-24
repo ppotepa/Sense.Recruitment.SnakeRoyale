@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Sense.Recruitment.SnakeRoyale.Engine.Extensions;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Network;
+using Sense.Recruitment.SnakeRoyale.Engine.Server.Requests;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         private readonly WebSocketServer WebSocketServer;
         private WebSocketServiceHost Host;
-        private readonly ILoggingService LoggingService;
+        public readonly ILoggingService LoggingService;
         public SimpleGameServer(IEnumerable<GameLogicBehaviour> behaviours, WebSocketServer webSocketServer, ILoggingService loggingService)
         {
             Behaviours = behaviours.OrderBy(b => b.Priority).ToList();
@@ -30,8 +31,9 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         }
 
         private int TicksCount = 0;
-        private void StartInternal() => ServerLogic();
-        public void Start() => ThreadPool.QueueUserWorkItem(o => ServerLogic());
+        private int TickInterval = 500;
+        private List<GameObject> CurrentTickRemovedObjects = new List<GameObject>();
+
         private void ServerLogic()
         {
             IsRunning = true;
@@ -40,8 +42,19 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
                 ServerTick();
                 ProcessCommands();
 
-                var broadCastData = GetBroadcatData();
+                var broadCastData = new ServerStateResponse()
+                {
+                    GameObjects = GameObjects.Values,
+                    RemovedObjects = CurrentTickRemovedObjects
+                }
+                .ToJson();
+
                 Host.Sessions.Broadcast(broadCastData);
+
+                if (CurrentTickRemovedObjects.Any()) 
+                {
+                    CurrentTickRemovedObjects.Clear();
+                }
 
                 TicksCount++;
                 Console.Title = $"Objects {GameObjects.Count} Ticks:{TicksCount}";
@@ -53,23 +66,17 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         {
             Behaviours.ForEach(b => b.ApplyTo(this));            
             OnTickCompleted?.Invoke();  
-            Thread.Sleep(100);
+            Thread.Sleep(TickInterval);
         }
 
         internal void ProcessCommands()
         {
             while (CommandStack.Count > 0)
             {
-                //LoggingService.LogMessage($"[Server] Processing Commands {CommandStack.Count}");
-                ICommand command = CommandStack.Pop();
+                ICommand command =  CommandStack.Pop();
+                LoggingService.LogMessage($"Executing command {command.GetType().Name} with Parameters");
                 command.Execute();
             }
         }
-
-        internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => Start());
-        public void AddCommandToQueue(ICommand command) => CommandStack.Push(command);
-
-        internal void AddHost(WebSocketServiceHost host) => Host = host;
-       
     }
 }

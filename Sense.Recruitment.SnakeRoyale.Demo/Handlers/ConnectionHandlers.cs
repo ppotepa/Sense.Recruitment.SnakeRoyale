@@ -3,6 +3,7 @@ using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using System;
+using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Handlers
 {
@@ -14,17 +15,20 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Handlers
         {
             GameObject player = GameObject.Create
                 (
-                    objectName: "Player",
+                    objectName: "SnakeHead",
                     playable: true,
                     isSolid: false,
                     bitmapName: "snake.png",
-                    position: new Vector2D(x:1000, y:800),
+                    position: new Vector2D(x:random.Next(0, 30) * 32, y: random.Next(0, 30) * 32),
                     velocity: new Vector2D(x: 32, y: 0),
                     roration: 0,
                     scale: 1,
                     objectTypeName: "Snake",
-                    owner: client
+                    owner: client,
+                    properties:null
                 );
+
+            player.ObjectProperties = new SnakeProperties(player);
             server.AddObject(player);
         }
     }

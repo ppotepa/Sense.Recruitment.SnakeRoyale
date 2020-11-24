@@ -4,6 +4,8 @@ using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using WebSocketSharp.Server;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 {
@@ -28,6 +30,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         public bool RemoveObject(GameObject @object)
         {
             GameObjects.Remove(@object.HashCode);
+            CurrentTickRemovedObjects.Add(@object);
             OnObjectRemoved?.Invoke(@object);
             return true;
         }
@@ -37,6 +40,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         public bool IsWebSocketRunning => WebSocketServer.IsListening;
         internal void RegisterNewWebSocketClient(string clientHashCode)
         {
+            this.LoggingService.LogMessage($"User Connected : ${clientHashCode}");
             Client newClient = new Client(clientHashCode);
                 
             if (!Clients.ContainsKey(clientHashCode))
@@ -48,6 +52,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
             OnNewClientRegistred?.Invoke(this, newClient);
         }
 
+        private void StartInternal() => ServerLogic();
+        public void Start() => ThreadPool.QueueUserWorkItem(o => ServerLogic());
+
+        public void SetTickInterval(int newTick) => TickInterval = newTick;
         private string GetBroadcatData() => JsonConvert.SerializeObject(GameObjects.ToArray());
+        internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => Start());
+        public void AddCommandToQueue(ICommand command) => CommandStack.Push(command);
+
+        internal void AddHost(WebSocketServiceHost host) => Host = host;
     }
 }

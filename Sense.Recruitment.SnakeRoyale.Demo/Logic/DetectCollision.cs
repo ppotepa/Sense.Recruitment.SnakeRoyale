@@ -28,6 +28,9 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 bool colided = server.GetObjectAt(props.Head.Position).Any(obj => obj.IsSolid && obj != snake);
                 if (colided)
                 {
+                    ((SnakeProperties)snake.ObjectProperties).Tail
+                    .ToList()
+                    .ForEach(tailBit => server.RemoveObject(tailBit));
                     server.RemoveObject(snake);
                 }
             });

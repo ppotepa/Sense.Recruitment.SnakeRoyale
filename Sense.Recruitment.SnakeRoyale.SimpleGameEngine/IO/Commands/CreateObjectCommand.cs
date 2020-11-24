@@ -26,7 +26,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
                 roration: 0,
                 scale: 1,
                 objectTypeName: Parameters.PredefinedTypeName, 
-                owner:null
+                owner:null,
+                properties:null
             );
            
             Server.AddObject(@object);

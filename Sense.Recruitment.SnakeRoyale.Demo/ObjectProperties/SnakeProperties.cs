@@ -13,8 +13,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic.Models
         {
             Head = head;
         }
-
-        //ENCAPSULATES
+       
         public int Score { get; set; } = 0;
     }
 }

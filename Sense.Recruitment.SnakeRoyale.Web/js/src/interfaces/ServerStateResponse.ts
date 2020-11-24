@@ -16,9 +16,9 @@ interface GameObject {
     ObjectTypeName: string;
 }
 
-interface HashedGameObject {
-    Key: string,
-    Value: GameObject,
+interface ServerStateResponse {
+    GameObjects: GameObject[],
+    RemovedObjects: GameObject[],
 }
 
-export { GameObject, Vector2D, HashedGameObject }
+export { GameObject, Vector2D, ServerStateResponse }

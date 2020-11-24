@@ -29,17 +29,10 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Primitives
         public static bool operator ==(Vector2D a, Vector2D b) => a.X == b.X && a.Y == b.Y;
         public static bool operator !=(Vector2D a, Vector2D b) => a.X != b.X || a.Y != b.Y;
 
-        public Vector2D Revert()
-        {
-            X *= -1;
-            Y *= -1;
-            return this;
-        }
-
         public Vector2D Add(Vector2D vector2d)
         {
-            this.X += vector2d.X;
-            this.Y += vector2d.Y;
+            X += vector2d.X;
+            Y += vector2d.Y;
             return this;
         }
     }

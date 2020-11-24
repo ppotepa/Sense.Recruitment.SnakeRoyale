@@ -53,6 +53,7 @@ namespace Sense.Recruitment.SnakeRoyale.Client
 
             renderer = (ConsoleRenderer) container.Resolve<IRenderer>();
             renderer.Initialize();
+
             server = container.Resolve<SimpleGameServer>();
 
             server.OnNewClientRegistred += ConnectionHandlers.CreatePlayer;

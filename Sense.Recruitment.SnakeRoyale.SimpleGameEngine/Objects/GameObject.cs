@@ -15,7 +15,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
 
         public static GameObject Create(string objectName, Vector2D position, Vector2D velocity, bool playable,
                                         bool isSolid, string bitmapName, double roration, double scale,
-                                        string objectTypeName, Client owner)
+                                        string objectTypeName, Client owner, ObjectProperties properties)
         {
             if (!CountByName.ContainsKey(objectTypeName))
             {
@@ -28,12 +28,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
                 Playable = playable,
                 IsSolid = isSolid,
                 BitmapName = bitmapName ?? "Unnamed",
+                ObjectName = objectName,
                 Position = position,
                 Velocity = velocity,
                 Rotation = roration,
                 Scale = scale,
                 ObjectTypeName = objectTypeName ?? "Unnamed",
                 Owner = owner,
+                ObjectProperties = properties
             };
         }
 
@@ -49,11 +51,23 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public string ObjectTypeName { get; set; }
 
         public readonly string HashCode = RandomTools.CreateHashCode(10);
-        private Client Owner;
+        private Client owner;
         [JsonIgnore]
         public ObjectProperties ObjectProperties { get; set; }
+        public Client Owner { get => owner; private set => owner = value; }
 
-        public GameObject Copy() => Create(ObjectName, Position, Velocity, Playable, IsSolid, BitmapName, Rotation, Scale, ObjectTypeName, Owner);
+        public GameObject Copy() => Create(ObjectName+"Copy",
+                                           Position,
+                                           Velocity,
+                                           false,
+                                           IsSolid,
+                                           BitmapName,
+                                           Rotation,
+                                           Scale,
+                                           ObjectTypeName,
+                                           null,
+                                           ObjectProperties);
+
         public static bool Remove(GameObject @object)
         {
             CountByName[@object.ObjectTypeName]--;

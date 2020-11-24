@@ -20,16 +20,17 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
             {
                 GameObject snake = GameObject.Create
                 (
-                    objectName: "SomeSnake",
+                    objectName: "SnakeHead",
                     playable: false,
                     isSolid: true,
-                    bitmapName: null,
-                    position: new Vector2D(x: random.Next(0, 1000), y: random.Next(0, 1000)),
-                    velocity: new Vector2D(x: 5, y: 0),
+                    bitmapName: "snake.png",
+                    position: new Vector2D(x: random.Next(0, 60)*32, y: random.Next(0, 32)*32),
+                    velocity: new Vector2D(x: 32, y: 0),
                     roration: 0,
                     scale: 1,
                     objectTypeName: "Snake",
-                    owner:null
+                    owner:null,
+                    properties:null
                 );
 
                 snake.ObjectProperties = new SnakeProperties(snake);

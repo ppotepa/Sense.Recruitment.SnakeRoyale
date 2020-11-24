@@ -22,11 +22,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours
             command.Publish();
         }
 
-        public void BroadcastToAll()
-        {
-            //Sessions.Broadcast();
-        }
-
         protected override void OnOpen()
         {
           

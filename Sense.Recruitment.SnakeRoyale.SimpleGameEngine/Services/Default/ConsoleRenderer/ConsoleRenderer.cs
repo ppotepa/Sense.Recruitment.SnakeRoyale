@@ -55,11 +55,11 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
 
         public void RenderSingleObject(GameObject @object)
         {
-            if (@object.Position.X > 1 && @object.Position.Y < 50)
+            if (@object.Position.X/32 > 0 && @object.Position.Y/32 < 50)
             {
                 try
                 {
-                    Console.SetCursorPosition(@object.Position.X, @object.Position.Y);
+                    Console.SetCursorPosition(@object.Position.X/32, @object.Position.Y/32);
                 }
                 catch (ArgumentOutOfRangeException)
                 {

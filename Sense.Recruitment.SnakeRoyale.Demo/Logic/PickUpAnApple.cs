@@ -28,23 +28,19 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
         private static List<GameObject> Apples { get; set; }  = new List<GameObject>();
         public override void ApplyTo(SimpleGameServer server)
         {
-            if (SnakesInitialized is false)
-            {
-                Snakes = server.GetObjectsByName("Snake").ToList();
-                SnakesInitialized = true;
-            }
-
+            Snakes = server.GetObjectsByName("Snake").Where(@object => @object.ObjectName == "SnakeHead").ToList();
             Apples = server.GetObjectsByName("Apple").ToList();
+
             Snakes.ForEach(snake => 
             {
-                SnakeProperties props = (SnakeProperties)snake.ObjectProperties;
+                SnakeProperties properties = (SnakeProperties) snake.ObjectProperties;
                 Apples.ForEach(apple => 
                 {
-                    if (apple.Position == props.Head.Position) 
+                    if (apple.Position == properties.Head.Position) 
                     {
                         server.RemoveObject(apple);
-                        props.Length += 1;
-                        props.Score += 1;
+                        properties.Length += 1;
+                        properties.Score += 1;
                     }
                 });
             });

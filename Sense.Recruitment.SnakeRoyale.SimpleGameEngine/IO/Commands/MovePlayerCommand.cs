@@ -1,6 +1,7 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
+using System.Linq;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 {
@@ -15,7 +16,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 
         public override void Execute()
         {
-            GameObject player = Server.GetObjectByTypeHashCode(Parameters.hashCode);
+            GameObject player = Server.GameObjects.Values.First(@object => @object.Owner != null && @object.Owner.ClientHashCode == Parameters.hashCode);
             player.Velocity = new Vector2D(Parameters.x, Parameters.y);
         }
     }
