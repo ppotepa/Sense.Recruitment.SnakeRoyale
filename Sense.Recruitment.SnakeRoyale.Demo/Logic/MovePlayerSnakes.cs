@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
-    public class MoveSnakes : GameLogicBehaviour
+    public class MovePlayerSnakes : GameLogicBehaviour
     {
-        public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
+        public MovePlayerSnakes(ILoggingService loggingService) : base(loggingService) { }
         private static Dictionary<string, GameObject> Snakes { get; set; }
         private static List<SnakeProperties> SnakesList { get; set; }
 
@@ -40,13 +40,8 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     .GetObjectsByName("Snake")
                     .ToDictionary(snake => snake.HashCode, snake => snake);
 
-            Snakes.Values.ToList().ForEach(snake =>
+            Snakes.Values.Where(snake => snake.Playable).ToList().ForEach(snake =>
             {
-                if (snake.Playable)
-                {
-                    return;
-                }
-
                 SnakeProperties snakeProperties = (SnakeProperties)snake.ObjectProperties;
 
                 if (snakeProperties is null)
@@ -65,15 +60,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     }
 
                     server.RemoveObject(snakeProperties.Tail.Last.Value);
-
                     snakeProperties.Tail.RemoveLast();
-                    Vector2D newVelocity = new Vector2D(random.Next(-2, 2), random.Next(-2, 2));
-
-                    if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
-                    {
-                        snakeProperties.Head.Velocity = newVelocity;
-                    }
-
                     snakeProperties.Head.Position += snakeProperties.Head.Velocity;
                 }
             });

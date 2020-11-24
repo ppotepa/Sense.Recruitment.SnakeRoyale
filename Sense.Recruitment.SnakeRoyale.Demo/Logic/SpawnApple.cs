@@ -9,7 +9,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
 {
     public class SpawnApple : GameLogicBehaviour
     {
-        private const int AppleLimit = 100;
+        private const int AppleLimit = 200;
         private static Random random = new Random();
         public SpawnApple(ILoggingService loggingService) : base(loggingService) { }
         public override void ApplyTo(SimpleGameServer server)

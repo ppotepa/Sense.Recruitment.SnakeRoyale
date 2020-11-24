@@ -1,8 +1,6 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
-using System;
-using System.Threading.Tasks;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
 {

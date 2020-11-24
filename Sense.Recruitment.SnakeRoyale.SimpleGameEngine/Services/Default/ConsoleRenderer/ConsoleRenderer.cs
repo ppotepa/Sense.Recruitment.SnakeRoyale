@@ -27,7 +27,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         public void Initialize()
         {
             Console.CursorVisible = false;
-            //Server.OnTickCompleted += Render;
+            Server.OnTickCompleted += Render;
             Initialized = true;
             ResolveTypeNames();
         }
@@ -67,7 +67,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
                 }
                 finally
                 {
-                    if (@object.ObjectTypeName == "Snake") Console.ForegroundColor = ConsoleColor.Blue;
+                    if (@object.ObjectTypeName.Equals("Snake", StringComparison.InvariantCultureIgnoreCase)) Console.ForegroundColor = ConsoleColor.Blue;
                     else Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(TypeNamesCharacters[@object.ObjectTypeName]);
                 }

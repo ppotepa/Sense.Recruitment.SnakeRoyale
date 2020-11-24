@@ -16,12 +16,9 @@ namespace Sense.Recruitment.SnakeRoyale.Client
     static class Program
     {
         private static IContainer container;
+        private static SimpleGameEngine engine;      
         private static ICommandResolver<string> resolver;
-        private static SimpleGameEngine engine;
-        private static SimpleGameServer server;
-        private static ConsoleRenderer renderer;
 
-        //how else can i do it ;o
         private static Command CommandFactory(ResolvedCommandType resolvedCommand)
         {
             IEnumerable<Parameter> parameters = resolvedCommand
@@ -43,15 +40,15 @@ namespace Sense.Recruitment.SnakeRoyale.Client
         [STAThread]
         public static void Main(string[] args)
         {
+            ConsoleRenderer renderer;
             ContainerBuilder builder = new ContainerBuilder();
             builder
-                .RegisterModule(new CommandModule())
-                //.RegisterModule(new CommandResolverModule())
-                //
+                .RegisterModule(new CommandModule())                
                 .RegisterModule(new GameEngineModule(CommandFactory));
 
             container = builder.Build();
             engine = container.Resolve<SimpleGameEngine>();
+
             renderer = (ConsoleRenderer) container.Resolve<IRenderer>();
             renderer.Initialize();
             

@@ -15,7 +15,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            Console.WriteLine($"PlayerCommand received command : {e.Data}");
             ResolvedCommandType resolved = CommandResolver.ResolveCommand(e.Data);
             Command command = Factory(resolved);
             command.Publish();
@@ -23,17 +22,15 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours
 
         protected override void OnOpen()
         {
-            Console.WriteLine($"PlayerCommand open");
+            //Console.WriteLine($"PlayerCommand open");
         }
 
-        public WebSocketCommandReceiver UseResolver(ICommandResolver<string> resolver)
+        public void Initialize(ICommandResolver<string> resolver, Func<ResolvedCommandType, Command> factory)
         {
             CommandResolver = resolver;
-            return this;
+            Factory = factory;
+            
         }
-  
-       public void AddCommandContainer(ICommandResolver<string> resolver) => CommandResolver = resolver;
-       public void UseFactory(Func<ResolvedCommandType, Command> factory) => Factory = factory;
     }
 }
     

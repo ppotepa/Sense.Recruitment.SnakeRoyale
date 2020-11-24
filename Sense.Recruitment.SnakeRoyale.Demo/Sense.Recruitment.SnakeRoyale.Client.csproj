@@ -13,6 +13,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Logic\AddSnakes.cs" />
     <Compile Include="Logic\DetectCollision.cs" />
+    <Compile Include="Logic\MovePlayerSnakes.cs" />
     <Compile Include="Logic\MoveSnakes.cs" />
     <Compile Include="Logic\PickUpAnApple.cs" />
     <Compile Include="Logic\SpawnApple.cs" />

@@ -1,6 +1,7 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -25,12 +26,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         private int TicksCount = 0;
         private void StartInternal() => ServerLogic();
-        public void Start() 
-        {
-            //LoggingService.LogMessage("[Server] Starting");
-            ThreadPool.QueueUserWorkItem(o => ServerLogic());
-        } 
-
+        public void Start() => ThreadPool.QueueUserWorkItem(o => ServerLogic());
         private void ServerLogic()
         {
             IsRunning = true;
@@ -38,15 +34,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
             {
                 ServerTick();
                 ProcessCommands();
+                TicksCount++;
+                Console.Title = $"Objects {GameObjects.Count} Ticks:{TicksCount}";
             }
-
-            TicksCount++;
         }
 
         //Could actually be a nice Func?
         internal void ServerTick()
         {
-            //LoggingService.LogMessage("[Server] Applying behaviours");
             Behaviours.ForEach(b => b.ApplyTo(this));            
             OnTickCompleted?.Invoke();  
             Thread.Sleep(100);
@@ -54,7 +49,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         internal void ProcessCommands()
         {
-           
             while (CommandStack.Count > 0)
             {
                 //LoggingService.LogMessage($"[Server] Processing Commands {CommandStack.Count}");

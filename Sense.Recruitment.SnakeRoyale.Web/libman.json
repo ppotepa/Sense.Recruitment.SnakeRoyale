@@ -3,8 +3,8 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "pixi.js@4.4.5",
-      "destination": "wwwroot/pixi.js/"
+      "library": "pixi.js@5.3.3",
+      "destination": "wwwroot/lib/pixi.js/"
     }
   ]
 }

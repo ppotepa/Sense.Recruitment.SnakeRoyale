@@ -60,9 +60,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
                     WebSocketServer instance = args.Instance;
                     instance.AddWebSocketService<WebSocketCommandReceiver>("/command", (c) => 
                     {
-                        c.UseResolver(new InputStringCommandResolver(allAvailableCommands, allAvailableParameters));
-                        c.UseFactory(CommandFactory);
-                        
+                        c.Initialize(new InputStringCommandResolver(allAvailableCommands, allAvailableParameters), CommandFactory);
                     });
                     instance.Start();
                 });
