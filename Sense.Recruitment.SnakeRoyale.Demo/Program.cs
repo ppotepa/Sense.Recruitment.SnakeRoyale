@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
+using Sense.Recruitment.SnakeRoyale.Demo.Handlers;
 using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Modules;
@@ -16,8 +17,7 @@ namespace Sense.Recruitment.SnakeRoyale.Client
     static class Program
     {
         private static IContainer container;
-        private static SimpleGameEngine engine;      
-        private static ICommandResolver<string> resolver;
+        private static SimpleGameEngine engine;    
 
         private static Command CommandFactory(ResolvedCommandType resolvedCommand)
         {
@@ -41,6 +41,8 @@ namespace Sense.Recruitment.SnakeRoyale.Client
         public static void Main(string[] args)
         {
             ConsoleRenderer renderer;
+            SimpleGameServer server;
+
             ContainerBuilder builder = new ContainerBuilder();
             builder
                 .RegisterModule(new CommandModule())                
@@ -51,7 +53,10 @@ namespace Sense.Recruitment.SnakeRoyale.Client
 
             renderer = (ConsoleRenderer) container.Resolve<IRenderer>();
             renderer.Initialize();
-            
+            server = container.Resolve<SimpleGameServer>();
+
+            server.OnNewClientRegistred += ConnectionHandlers.CreatePlayer;
+
             while (engine.IsRunning)
             {
                 Thread.Sleep(100);

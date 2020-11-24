@@ -1,8 +1,10 @@
+import CommandSocketModule from "./modules/webSocket/CommandSocketModule"
 import * as PIXI from "pixi.js";
 import "./style.css";
+import { HashedGameObject } from "./interfaces/EngineInterfaces";
 
-const gameWidth = 800;
-const gameHeight = 600;
+const gameWidth = 1000;
+const gameHeight = 800;
 
 const app = new PIXI.Application({
     backgroundColor: 0xd3d3d3,
@@ -13,35 +15,9 @@ const app = new PIXI.Application({
 const stage = app.stage;
 
 window.onload = async (): Promise<void> => {
-    await loadGameAssets();
-
     document.body.appendChild(app.view);
-
     resizeCanvas();
-
-    const birdFromSprite = getBird();
-    birdFromSprite.anchor.set(0.5, 0.5);
-    birdFromSprite.position.set(gameWidth / 2, gameHeight / 2);
-
-    stage.addChild(birdFromSprite);
 };
-
-async function loadGameAssets(): Promise<void> {
-    return new Promise((res, rej) => {
-        const loader = PIXI.Loader.shared;
-        loader.add("rabbit", "./assets/simpleSpriteSheet.json");
-
-        loader.onComplete.once(() => {
-            res();
-        });
-
-        loader.onError.once(() => {
-            rej();
-        });
-
-        loader.load();
-    });
-}
 
 function resizeCanvas(): void {
     const resize = () => {
@@ -55,17 +31,27 @@ function resizeCanvas(): void {
     window.addEventListener("resize", resize);
 }
 
-function getBird(): PIXI.AnimatedSprite {
-    const bird = new PIXI.AnimatedSprite([
-        PIXI.Texture.from("birdUp.png"),
-        PIXI.Texture.from("birdMiddle.png"),
-        PIXI.Texture.from("birdDown.png"),
-    ]);
-
-    bird.loop = true;
-    bird.animationSpeed = 0.1;
-    bird.play();
-    bird.scale.set(3);
-
-    return bird;
+function getObject(x: number, y: number, bitmapName: string): PIXI.Sprite {
+    const apple = new PIXI.Sprite(PIXI.Texture.from("assets/apple.png"));
+    apple.scale.set(1);
+    apple.x = x;
+    apple.y = y;
+    return apple;
 }
+
+var allObjects: { [Key: string]: PIXI.Sprite; } = {};
+CommandSocketModule.start();
+CommandSocketModule.addServerTickHandler((event) => {
+    debugger;
+    let objects: HashedGameObject[] = <HashedGameObject[]>JSON.parse(event.data);
+    objects.forEach(object => {
+        if (allObjects[object.Key] === undefined) {
+            let newObject = getObject(object.Value.Position.X, object.Value.Position.Y, object.Value.ObjectTypeName);
+            stage.addChild(newObject);
+        }
+        else {
+            allObjects[object.Key].position.x = object.Value.Position.X;
+            allObjects[object.Key].position.y = object.Value.Position.Y;
+        }
+    });
+});

@@ -27,7 +27,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
         public void Initialize()
         {
             Console.CursorVisible = false;
-            Server.OnTickCompleted += Render;
+            //Server.OnTickCompleted += Render;
             Initialized = true;
             ResolveTypeNames();
         }
@@ -55,7 +55,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Services.Default.ConsoleRenderer
 
         public void RenderSingleObject(GameObject @object)
         {
-            if (@object.Position.X > 0 && @object.Position.Y > 0)
+            if (@object.Position.X > 1 && @object.Position.Y < 50)
             {
                 try
                 {

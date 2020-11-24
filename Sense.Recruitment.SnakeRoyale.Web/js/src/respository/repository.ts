@@ -1,3 +1,0 @@
-export module Repository {
-
-}

@@ -44,14 +44,14 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network
                 Random rnd = new Random();
                 while (Server.IsWebSocketRunning)
                 {
-                    try
-                    {
-                        client.Send($"moveplayer hashCode:{Server.GameObjects.Values.First(e => e.Playable is true).HashCode} x:1 y:0");
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    //try
+                    //{
+                    //    //client.Send($"moveplayer hashCode:{Server.GameObjects.Values.First(e => e.Playable is true).HashCode} x:1 y:0");
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    throw;
+                    //}
                     
                     Thread.Sleep(200);
                 }

@@ -14,7 +14,6 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     {
         public MoveSnakes(ILoggingService loggingService) : base(loggingService) { }
         private static Dictionary<string, GameObject> Snakes { get; set; }
-        private static List<SnakeProperties> SnakesList { get; set; }
 
         private static readonly Vector2D EAST = new Vector2D(1, 0);
         private static readonly Vector2D WEST = new Vector2D(-1, 0);
@@ -55,27 +54,24 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     snakeProperties.Head.Velocity = new Vector2D(1, 0);
                 }
 
-                if (snakeProperties.Head.Position.X + snakeProperties.Head.Velocity.X < 119)
+                while (snakeProperties.Tail.Count < snakeProperties.Length)
                 {
-                    while (snakeProperties.Tail.Count < snakeProperties.Length)
-                    {
-                        GameObject copy = snakeProperties.Head.Copy();
-                        snakeProperties.Tail.AddFirst(copy);
-                        server.AddObject(copy);
-                    }
-
-                    server.RemoveObject(snakeProperties.Tail.Last.Value);
-
-                    snakeProperties.Tail.RemoveLast();
-                    Vector2D newVelocity = new Vector2D(random.Next(-2, 2), random.Next(-2, 2));
-
-                    if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
-                    {
-                        snakeProperties.Head.Velocity = newVelocity;
-                    }
-
-                    snakeProperties.Head.Position += snakeProperties.Head.Velocity;
+                    GameObject copy = snakeProperties.Head.Copy();
+                    snakeProperties.Tail.AddFirst(copy);
+                    server.AddObject(copy);
                 }
+
+                server.RemoveObject(snakeProperties.Tail.Last.Value);
+
+                snakeProperties.Tail.RemoveLast();
+                //Vector2D newVelocity = new Vector2D(random.Next(-2, 2), random.Next(-2, 2));
+                //if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
+                //{
+                //    snakeProperties.Head.Velocity = newVelocity;
+                //}
+
+                snakeProperties.Head.Position += snakeProperties.Head.Velocity;
+
             });
         }
     }

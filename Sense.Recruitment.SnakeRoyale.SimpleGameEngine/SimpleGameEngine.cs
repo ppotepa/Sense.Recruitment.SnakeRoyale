@@ -17,7 +17,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         private readonly ILoggingService LoggingService;
         private readonly SimpleGameServer Server;
         private readonly InternalWebSocketClient Client;
-
         private readonly Stopwatch StopWatch = new Stopwatch();
 
         public SimpleGameEngine

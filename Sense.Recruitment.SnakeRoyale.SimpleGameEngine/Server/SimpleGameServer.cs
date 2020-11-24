@@ -1,5 +1,7 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
+﻿using Newtonsoft.Json;
+using Sense.Recruitment.SnakeRoyale.Engine.IO;
 using Sense.Recruitment.SnakeRoyale.Engine.Logic;
+using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,10 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
         private readonly Stack<ICommand> CommandStack = new Stack<ICommand>();
         public readonly Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
         private readonly List<GameLogicBehaviour> Behaviours;
+        private readonly Dictionary<string, Client> Clients = new Dictionary<string, Client>();
+
         private readonly WebSocketServer WebSocketServer;
+        private WebSocketServiceHost Host;
         private readonly ILoggingService LoggingService;
         public SimpleGameServer(IEnumerable<GameLogicBehaviour> behaviours, WebSocketServer webSocketServer, ILoggingService loggingService)
         {
@@ -34,6 +39,10 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
             {
                 ServerTick();
                 ProcessCommands();
+
+                var broadCastData = GetBroadcatData();
+                Host.Sessions.Broadcast(broadCastData);
+
                 TicksCount++;
                 Console.Title = $"Objects {GameObjects.Count} Ticks:{TicksCount}";
             }
@@ -59,5 +68,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => Start());
         public void AddCommandToQueue(ICommand command) => CommandStack.Push(command);
+
+        internal void AddHost(WebSocketServiceHost host) => Host = host;
+       
     }
 }

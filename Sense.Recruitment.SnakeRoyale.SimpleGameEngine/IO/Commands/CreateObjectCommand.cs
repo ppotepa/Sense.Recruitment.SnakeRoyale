@@ -25,7 +25,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
                 velocity: new Vector2D(x: 0, y: 0),
                 roration: 0,
                 scale: 1,
-                objectTypeName: Parameters.PredefinedTypeName
+                objectTypeName: Parameters.PredefinedTypeName, 
+                owner:null
             );
            
             Server.AddObject(@object);

@@ -49,20 +49,18 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     snakeProperties = new SnakeProperties(snake);
                     snakeProperties.Head.Velocity = new Vector2D(1, 0);
                 }
-
-                if (snakeProperties.Head.Position.X + snakeProperties.Head.Velocity.X < 119)
+              
+                while (snakeProperties.Tail.Count < snakeProperties.Length)
                 {
-                    while (snakeProperties.Tail.Count < snakeProperties.Length)
-                    {
-                        GameObject copy = snakeProperties.Head.Copy();
-                        snakeProperties.Tail.AddFirst(copy);
-                        server.AddObject(copy);
-                    }
-
-                    server.RemoveObject(snakeProperties.Tail.Last.Value);
-                    snakeProperties.Tail.RemoveLast();
-                    snakeProperties.Head.Position += snakeProperties.Head.Velocity;
+                    GameObject copy = snakeProperties.Head.Copy();
+                    snakeProperties.Tail.AddFirst(copy);
+                    server.AddObject(copy);
                 }
+
+                server.RemoveObject(snakeProperties.Tail.Last.Value);
+                snakeProperties.Tail.RemoveLast();
+                snakeProperties.Head.Position += snakeProperties.Head.Velocity;
+             
             });
         }
     }

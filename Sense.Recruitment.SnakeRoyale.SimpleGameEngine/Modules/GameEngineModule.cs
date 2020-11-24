@@ -25,7 +25,8 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
         protected override void Load(ContainerBuilder builder)
         {
             IGameEngineConfig config = new GameEngineConfig().LoadConfiguration("test");
-            
+            WebSocketServiceHost host = null; 
+
             builder.RegisterType<ConsoleLoggingService>()
                 .InstancePerLifetimeScope()
                 .As<ILoggingService>();
@@ -60,12 +61,19 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Modules
                     WebSocketServer instance = args.Instance;
                     instance.AddWebSocketService<WebSocketCommandReceiver>("/command", (c) => 
                     {
-                        c.Initialize(new InputStringCommandResolver(allAvailableCommands, allAvailableParameters), CommandFactory);
+                        c.Initialize(new InputStringCommandResolver(allAvailableCommands, allAvailableParameters), CommandFactory);                        
                     });
                     instance.Start();
+                    instance.WebSocketServices.TryGetServiceHost("/command", out host);
                 });
 
-            builder.RegisterType<SimpleGameServer>().SingleInstance().As<SimpleGameServer>();
+            builder
+                .RegisterType<SimpleGameServer>()
+                .SingleInstance()
+                .As<SimpleGameServer>()
+                .OnActivated(a => a.Instance.AddHost(host));
+                
+
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())  
                   .Where(type => type.IsSubclassOf(typeof(GameLogicBehaviour)))
                   .As<GameLogicBehaviour>()

@@ -1,4 +1,5 @@
 ﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
+using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System;
 using WebSocketSharp;
@@ -11,6 +12,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours
     {
         public WebSocketCommandReceiver() { }
         private ICommandResolver<string> CommandResolver;
+
         private Func<ResolvedCommandType, Command> Factory { get; set; }
 
         protected override void OnMessage(MessageEventArgs e)
@@ -20,16 +22,21 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network.WebSocketsBehaviours
             command.Publish();
         }
 
-        protected override void OnOpen()
+        public void BroadcastToAll()
         {
-            //Console.WriteLine($"PlayerCommand open");
+            //Sessions.Broadcast();
         }
 
+        protected override void OnOpen()
+        {
+          
+        }        
+
+        //theres probably a better way of injecting it
         public void Initialize(ICommandResolver<string> resolver, Func<ResolvedCommandType, Command> factory)
         {
             CommandResolver = resolver;
             Factory = factory;
-            
         }
     }
 }

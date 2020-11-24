@@ -1,4 +1,6 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine.IO;
+﻿using Newtonsoft.Json;
+using Sense.Recruitment.SnakeRoyale.Engine.IO;
+using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +34,20 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Server
 
         internal bool UseDefaultLogic { get; set; } =true;
         internal void AddToQueue(ICommand command) => CommandStack.Push(command);
-        public bool IsWebSocketRunning => this.WebSocketServer.IsListening;
-       
+        public bool IsWebSocketRunning => WebSocketServer.IsListening;
+        internal void RegisterNewWebSocketClient(string clientHashCode)
+        {
+            Client newClient = new Client(clientHashCode);
+                
+            if (!Clients.ContainsKey(clientHashCode))
+            {
+                Clients.Add(clientHashCode, new Client(clientHashCode));
+            }
+            else throw new ClientAlreadyAddedException();
+
+            OnNewClientRegistred?.Invoke(this, newClient);
+        }
+
+        private string GetBroadcatData() => JsonConvert.SerializeObject(GameObjects.ToArray());
     }
 }

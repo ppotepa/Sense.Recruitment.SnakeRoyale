@@ -22,11 +22,12 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     playable: false,
                     isSolid: false,
                     bitmapName: null,
-                    position: new Vector2D(x: random.Next(0, 119), y: random.Next(0, 30)),
+                    position: new Vector2D(x: random.Next(0, 1000), y: random.Next(0, 1000)),
                     velocity: new Vector2D(x: 0, y: 0),
                     roration: 0,
                     scale: 1,
-                    objectTypeName: "Apple"
+                    objectTypeName: "Apple",
+                    owner:null
                 );
                 server.AddObject(apple);
             }
