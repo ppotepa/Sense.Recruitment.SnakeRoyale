@@ -12,26 +12,16 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Commands
         {
             Parameters = parameters;
         }
-     
+
         public readonly MovePlayerCommandParameters Parameters;
 
         public override void Execute()
         {
-            try
-            {
-                GameObject player = Server.GameObjects.Values
-                    .First(@object => @object.Owner != null && @object.Owner.ClientHashCode == Parameters.hashCode);
-
-                player.Velocity = new Vector2D(Parameters.x, Parameters.y);
-            }
-            catch (UnableToFindPlayerException ex)
-            {
-                Server.LoggingService.LogMessage(ex.Message);
-            }
-            finally 
-            {
+            GameObject player = Server.GameObjects.Values
+                .FirstOrDefault(@object => @object.Owner != null && @object.Owner.ClientHashCode == Parameters.hashCode);
                 
-            }
+            if (player is null) return;
+            player.Velocity = new Vector2D(Parameters.x, Parameters.y);
         }
     }
     public class MovePlayerCommandParameters : CommandParameters

@@ -49,7 +49,7 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         internal void RunInternal() => ThreadPool.QueueUserWorkItem(o => MainLogic());
         public void Run()
         {
-            new Task(RunInternal).Start();            
+            ThreadPool.QueueUserWorkItem(o => RunInternal());
             IsRunning = true;
         } 
     }

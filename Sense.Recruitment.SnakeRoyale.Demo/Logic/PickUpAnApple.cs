@@ -42,6 +42,10 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                         server.RemoveObject(apple);
                         properties.Length += 1;
                         properties.Score += 1;
+                        if (server.TickInterval - 20 > 0) 
+                        {
+                            server.SetTickInterval(server.TickInterval - 20);
+                        }
                     }
                 });
             });

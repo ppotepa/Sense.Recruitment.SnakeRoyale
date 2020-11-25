@@ -20,7 +20,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
             {
                 LoggingService.LogMessage("Spawning Obstacles.");
                 Vector2D obstaclePosition = new Vector2D(x: random.Next(0, 60) * 32, y: random.Next(0, 32) * 32);
-                if (server.GetObjectAt(obstaclePosition).ToList().Count == 0)
+                if (!server.GetObjectAt(obstaclePosition).Any())
                 {
                     GameObject apple = GameObject.Create
                     (
@@ -28,7 +28,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                         playable: false,
                         isSolid: true,
                         bitmapName: "obstacle.png",
-                        position: new Vector2D(x: random.Next(0, 60) * 32, y: random.Next(0, 32) * 32),
+                        position: obstaclePosition,
                         velocity: new Vector2D(x: 0, y: 0),
                         roration: 0,
                         scale: 1,
