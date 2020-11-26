@@ -17,7 +17,6 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
      
         public override void ApplyTo(SimpleGameServer server)
         {
-           
             Snakes = server
                 .GetObjectsByName("Snake")
                 .Where(@object => @object.ObjectName == "SnakeHead")
@@ -29,14 +28,12 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 bool colided = server.GetObjectAt(props.Head.Position).Any(obj => obj.IsSolid && obj != snake);
                 if (colided)
                 {
-                        LoggingService.LogMessage($"Snake {snake.Owner.ClientHashCode} colided with an object.");
+                    //LoggingService.LogMessage($"Snake {snake.Owner.ClientHashCode} colided with an object.");
 
-                        ((SnakeProperties)  snake.ObjectProperties).Tail
-                                                                .ToList()
-                                                                .ForEach(tailBit => server.RemoveObject(tailBit));
-                            server.RemoveObject(snake);
-                    }
-                });
+                    props.Tail.ToList().ForEach(tailBit => server.RemoveObject(tailBit));
+                    server.RemoveObject(snake);
+                }
+            });
         }
     }
 }

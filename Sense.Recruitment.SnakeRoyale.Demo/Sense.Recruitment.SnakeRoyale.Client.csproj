@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\ConnectionHandlers.cs" />
+    <Compile Include="Handlers\IOnUserConnected.cs" />
     <Compile Include="Logic\AddSnakes.cs" />
     <Compile Include="Logic\DetectCollision.cs" />
     <Compile Include="Logic\MoveSnakes.cs" />
@@ -107,10 +108,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\apple.png">
+    <Content Include="Assets\apple.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\snake.png">
+    <Content Include="Assets\snake.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

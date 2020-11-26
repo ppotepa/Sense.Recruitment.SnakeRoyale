@@ -1,9 +1,8 @@
-﻿using Sense.Recruitment.SnakeRoyale.Engine;
+﻿using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
+using Sense.Recruitment.SnakeRoyale.Engine;
 using Sense.Recruitment.SnakeRoyale.Engine.Primitives;
 using Sense.Recruitment.SnakeRoyale.Engine.Server;
-using Sense.Recruitment.SnakeRoyale.Engine.Network;
 using System;
-using Sense.Recruitment.SnakeRoyale.Demo.Logic.Models;
 
 namespace Sense.Recruitment.SnakeRoyale.Demo.Handlers
 {

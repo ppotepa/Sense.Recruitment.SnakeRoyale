@@ -20,12 +20,12 @@ namespace Sense.Recruitment.SnakeRoyale.Engine.Network
             {
                 client.OnMessage += (sender, e) =>
                 {
-                    //Console.WriteLine("Received data from server" + e.Data);
+                    
                 };
 
                 client.OnOpen += (sender, e) =>
                 {
-                    //client.Send("Test");
+                    //some handshake logic
                 };
                     
                 client.Connect();

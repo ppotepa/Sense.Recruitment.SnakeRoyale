@@ -3,7 +3,6 @@ using Sense.Recruitment.SnakeRoyale.Engine.Server;
 using Sense.Recruitment.SnakeRoyale.Engine.Services;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Sense.Recruitment.SnakeRoyale.Engine
 {
@@ -52,5 +51,6 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
             ThreadPool.QueueUserWorkItem(o => RunInternal());
             IsRunning = true;
         } 
+
     }
 }

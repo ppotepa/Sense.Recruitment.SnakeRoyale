@@ -59,7 +59,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 }
                 if (!snake.Playable)
                 {
-                    Vector2D newVelocity = new Vector2D(random.Next(-1, 1) * 32, random.Next(-1, 1) * 32);
+                    Vector2D newVelocity = new Vector2D(random.Next(-2, 2) * 32, random.Next(-2, 2) * 32);
                     if (AvailableDirections[snakeProperties.Head.Velocity].Contains(newVelocity))
                     {
                         snakeProperties.Head.Velocity = newVelocity;
@@ -67,6 +67,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                 }
 
                 snakeProperties.Head.Position += snakeProperties.Head.Velocity;
+                snake.Rotation += 0.10;
             });
         }
     }

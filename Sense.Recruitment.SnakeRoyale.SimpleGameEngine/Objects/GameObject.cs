@@ -56,17 +56,20 @@ namespace Sense.Recruitment.SnakeRoyale.Engine
         public ObjectProperties ObjectProperties { get; set; }
         public Client Owner { get => owner; private set => owner = value; }
 
-        public GameObject Copy() => Create(ObjectName+"Copy",
-                                           Position,
-                                           Velocity,
-                                           false,
-                                           IsSolid,
-                                           BitmapName,
-                                           Rotation,
-                                           Scale,
-                                           ObjectTypeName,
-                                           null,
-                                           ObjectProperties);
+        public GameObject Copy() => GameObject.Create
+                                    (
+                                        objectName: ObjectName +"Copy",
+                                        position: Position,
+                                        velocity: Velocity,
+                                        playable: false,
+                                        isSolid: IsSolid,
+                                        bitmapName: BitmapName,
+                                        roration: Rotation,
+                                        scale: Scale,
+                                        objectTypeName: ObjectTypeName,
+                                        owner: null,
+                                        properties: ObjectProperties
+                                    );
 
         public static bool Remove(GameObject @object)
         {

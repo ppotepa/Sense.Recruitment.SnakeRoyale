@@ -11,7 +11,7 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
     [LogicPriority(4)]
     public class AddSnakes : GameLogicBehaviour
     {
-        private const int SnakeLimit = 0;
+        private const int SnakeLimit = 300;
         private Random random = new Random();   
         public AddSnakes(ILoggingService loggingService) : base(loggingService) { }       
         public override void ApplyTo(SimpleGameServer server)

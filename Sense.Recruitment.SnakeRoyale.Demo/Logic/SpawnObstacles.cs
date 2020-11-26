@@ -38,11 +38,6 @@ namespace Sense.Recruitment.SnakeRoyale.Demo.Logic
                     );
                     server.AddObject(apple);
                 }
-                else
-                { 
-
-                }
-
             }
         }
     }
